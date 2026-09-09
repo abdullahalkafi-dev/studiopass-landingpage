@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import confetti from "canvas-confetti";
 import { Dialog } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CheckCircle2, Radio, Send, Sparkles, ChevronDown } from "lucide-react";
+import { CheckCircle2, Radio, Send, ChevronDown } from "lucide-react";
 import { OPERATING_COUNTRIES } from "@/lib/utils";
 
 interface OnboardModalProps {
@@ -39,13 +39,12 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
     setLoading(true);
 
     try {
-      const res = await fetch("/landing-page/api/onboard", {
+      await fetch("/api/onboard", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      // Confetti burst
       confetti({
         particleCount: 80,
         spread: 70,
@@ -56,7 +55,6 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
       setSubmitted(true);
     } catch (err) {
       console.error("Submission failed", err);
-      // Still show success to client with local confirmation
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -83,43 +81,40 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
       {!submitted ? (
         <div>
           <div className="flex items-center gap-2.5 mb-2">
-            <div className="p-2 rounded-xl bg-[#1e60f2]/20 text-[#38bdf8] border border-[#1e60f2]/30">
+            <div className="p-2 rounded-xl bg-[#1e60f2]/10 text-[#1e60f2]">
               <Radio className="w-5 h-5" />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8]">
-              Broadcaster & Partner Application
+            <span className="text-xs font-bold uppercase tracking-wider text-[#1e60f2]">
+              Partner Application
             </span>
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
-            Onboard Your Station or Channel
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">
+            Become a StudioPass Partner
           </h2>
-          <p className="text-sm text-slate-400 mb-6">
-            Join 24+ radio and TV networks revolutionizing live audience engagement
-            and monetization. Submit your details below and our team will get in touch.
+          <p className="text-sm text-slate-500 mb-6">
+            Submit your details and our team will get in touch to set up your account.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Name / Company */}
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Name / Company or Channel Name *
+                <label className="block text-xs font-medium text-slate-600 mb-1">
+                  Name / Company *
                 </label>
                 <input
                   type="text"
                   name="name"
                   required
-                  placeholder="e.g. Capital FM Kenya / Nation Media"
+                  placeholder="e.g. Capital FM"
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] transition-colors"
+                  className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] focus:ring-1 focus:ring-[#1e60f2]/30"
                 />
               </div>
 
-              {/* Partner Type */}
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-slate-600 mb-1">
                   Partner Type *
                 </label>
                 <div className="relative">
@@ -127,7 +122,7 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
                     name="partnerType"
                     value={formData.partnerType}
                     onChange={handleChange}
-                    className="w-full appearance-none rounded-xl bg-[#0c1220] border border-white/10 pl-3.5 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-[#38bdf8] transition-colors cursor-pointer"
+                    className="w-full appearance-none rounded-xl bg-slate-50 border border-slate-200 pl-3.5 pr-10 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-[#1e60f2] cursor-pointer"
                   >
                     <option value="Radio Station">Radio Station</option>
                     <option value="TV Station">TV Station</option>
@@ -139,9 +134,8 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
                 </div>
               </div>
 
-              {/* Country */}
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-slate-600 mb-1">
                   Country *
                 </label>
                 <div className="relative">
@@ -150,10 +144,10 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
                     required
                     value={formData.country}
                     onChange={handleChange}
-                    className="w-full appearance-none rounded-xl bg-[#0c1220] border border-white/10 pl-3.5 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-[#38bdf8] transition-colors cursor-pointer"
+                    className="w-full appearance-none rounded-xl bg-slate-50 border border-slate-200 pl-3.5 pr-10 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-[#1e60f2] cursor-pointer"
                   >
                     {OPERATING_COUNTRIES.map((c) => (
-                      <option key={c.code} value={c.name} className="bg-[#0c1220] text-white">
+                      <option key={c.code} value={c.name}>
                         {c.flag} {c.name}
                       </option>
                     ))}
@@ -162,10 +156,9 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
                 </div>
               </div>
 
-              {/* Phone Number */}
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Phone Number (with Country Code) *
+                <label className="block text-xs font-medium text-slate-600 mb-1">
+                  Phone Number *
                 </label>
                 <input
                   type="tel"
@@ -174,69 +167,65 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
                   placeholder="+254 700 000 000"
                   value={formData.phone}
                   onChange={handleChange}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] transition-colors"
+                  className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] focus:ring-1 focus:ring-[#1e60f2]/30"
                 />
               </div>
 
-              {/* Email Address */}
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
+                <label className="block text-xs font-medium text-slate-600 mb-1">
                   Email Address *
                 </label>
                 <input
                   type="email"
                   name="email"
                   required
-                  placeholder="station@broadcast.com"
+                  placeholder="you@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] transition-colors"
+                  className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] focus:ring-1 focus:ring-[#1e60f2]/30"
                 />
               </div>
 
-              {/* Website or Social Link */}
               <div>
-                <label className="block text-xs font-medium text-slate-300 mb-1">
-                  Website or Social Media Link
+                <label className="block text-xs font-medium text-slate-600 mb-1">
+                  Website or Social Link
                 </label>
                 <input
                   type="url"
                   name="websiteOrSocial"
-                  placeholder="https://capitalfm.co.ke"
+                  placeholder="https://..."
                   value={formData.websiteOrSocial}
                   onChange={handleChange}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] transition-colors"
+                  className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] focus:ring-1 focus:ring-[#1e60f2]/30"
                 />
               </div>
             </div>
 
-            {/* Short Description */}
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">
-                Short Description of Station / Channel
+              <label className="block text-xs font-medium text-slate-600 mb-1">
+                Short Description
               </label>
               <input
                 type="text"
                 name="shortDescription"
-                placeholder="Top urban contemporary radio reaching 1.2M daily youth listeners"
+                placeholder="Brief description of your channel/station"
                 value={formData.shortDescription}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] transition-colors"
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] focus:ring-1 focus:ring-[#1e60f2]/30"
               />
             </div>
 
-            {/* Message / Additional Info */}
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1">
-                Message / Additional Information
+              <label className="block text-xs font-medium text-slate-600 mb-1">
+                Additional Information
               </label>
               <textarea
                 name="message"
                 rows={3}
-                placeholder="Tell us about your audience, current playout system (vMix, TriCaster, etc.), or specific goals..."
+                placeholder="Tell us about your setup or goals..."
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full rounded-xl bg-white/5 border border-white/10 px-3.5 py-2.5 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] transition-colors resize-none"
+                className="w-full rounded-xl bg-slate-50 border border-slate-200 px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] resize-none"
               />
             </div>
 
@@ -250,7 +239,7 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
               </Button>
               <Button
                 type="submit"
-                variant="glow"
+                variant="default"
                 disabled={loading}
                 className="min-w-[160px]"
               >
@@ -267,24 +256,23 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
           </form>
         </div>
       ) : (
-        /* Confirmation State */
         <div className="text-center py-6 sm:py-8 space-y-4">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 mb-2">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 mb-2">
             <CheckCircle2 className="w-9 h-9" />
           </div>
 
-          <h3 className="text-2xl sm:text-3xl font-bold text-white">
+          <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
             Application Received!
           </h3>
 
-          <div className="max-w-md mx-auto p-4 rounded-xl bg-white/5 border border-white/10 text-slate-300 text-sm leading-relaxed">
-            “Thank you for your interest in StudioPass. Our team will review your
-            application and contact you shortly.”
+          <div className="max-w-md mx-auto p-4 rounded-xl bg-slate-50 border border-slate-200 text-slate-600 text-sm leading-relaxed">
+            Thank you for your interest in StudioPass. Our team will review your
+            application and contact you shortly.
           </div>
 
-          <p className="text-xs text-slate-500">
-            A confirmation copy will be sent to{" "}
-            <span className="text-slate-300 font-medium">{formData.email}</span>.
+          <p className="text-xs text-slate-400">
+            A confirmation will be sent to{" "}
+            <span className="text-slate-700 font-medium">{formData.email}</span>.
           </p>
 
           <div className="pt-4">

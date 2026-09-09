@@ -22,15 +22,15 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantStyles = {
       default:
-        "bg-[#1e60f2] hover:bg-[#1950cc] text-white shadow-lg shadow-[#1e60f2]/25 border border-[#3b82f6]/40 hover:shadow-[#1e60f2]/40",
+        "bg-[#1e60f2] hover:bg-[#1950cc] text-white shadow-lg shadow-[#1e60f2]/20 border border-[#3b82f6]/30",
       secondary:
-        "bg-white/10 hover:bg-white/15 text-white border border-white/10 backdrop-blur-sm",
+        "bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200",
       outline:
-        "bg-transparent hover:bg-white/5 text-slate-200 border border-white/15 hover:border-white/30",
+        "bg-transparent hover:bg-slate-50 text-slate-700 border border-slate-300 hover:border-slate-400",
       ghost:
-        "bg-transparent hover:bg-white/5 text-slate-300 hover:text-white",
+        "bg-transparent hover:bg-slate-100 text-slate-600 hover:text-slate-900",
       glow:
-        "relative bg-gradient-to-r from-[#1e60f2] to-[#38bdf8] text-white font-semibold shadow-[0_0_25px_rgba(30,96,242,0.45)] hover:shadow-[0_0_35px_rgba(56,189,248,0.6)] border border-cyan-400/40",
+        "relative bg-gradient-to-r from-[#1e60f2] to-[#38bdf8] text-white font-semibold shadow-[0_0_20px_rgba(30,96,242,0.3)] hover:shadow-[0_0_30px_rgba(56,189,248,0.5)] border border-cyan-300/40",
     };
 
     return (

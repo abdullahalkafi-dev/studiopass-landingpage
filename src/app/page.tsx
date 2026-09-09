@@ -3,37 +3,32 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Radio,
   Tv,
   Users,
-  Smartphone,
-  Sparkles,
   ArrowRight,
   Download,
-  PhoneCall,
-  CheckCircle2,
-  Send,
-  Trophy,
-  Wallet,
-  Play,
-  Share2,
-  Shield,
-  Layers,
-  Flame,
-  Globe2,
-  Clock,
-  Mic,
   MessageSquare,
-  QrCode,
-  Search,
-  Copy,
-  Check,
-  Zap,
-  Volume2,
+  Mic,
+  PhoneCall,
+  Vote,
+  Trophy,
+  Heart,
+  Megaphone,
+  BarChart3,
   Star,
-  Activity,
+  Zap,
+  CheckCircle2,
+  QrCode,
+  Send,
+  Search,
+  Headphones,
+  Music,
+  ShieldCheck,
+  RadioTower,
+  Smartphone,
 } from "lucide-react";
 
 import { Navbar } from "@/components/layout/navbar";
@@ -42,1450 +37,725 @@ import { WhatsAppFloat } from "@/components/whatsapp-float";
 import { OnboardModal } from "@/components/onboard-modal";
 import { Button } from "@/components/ui/button";
 import { Accordion } from "@/components/ui/accordion";
-import { Marquee } from "@/components/magicui/marquee";
-import { BentoGrid, BentoCard } from "@/components/magicui/bento-grid";
-import { NumberTicker } from "@/components/magicui/number-ticker";
-import { Safari } from "@/components/magicui/safari";
-import { Iphone15Pro } from "@/components/magicui/iphone-15-pro";
-import { BackgroundBeamsWithCollision } from "@/components/aceternity/background-beams-collision";
-import { HoverEffect } from "@/components/aceternity/card-hover-effect";
-import { AudioVisualizer } from "@/components/cult/audio-visualizer";
-import { LiveBadge } from "@/components/cult/live-badge";
-import { OPERATING_COUNTRIES } from "@/lib/utils";
+import { CampaignCarousel, Campaign } from "@/components/campaign-carousel";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
+import { StackingCards, StackingCardItem } from "@/components/ui/stacking-card";
 
 export default function HomePage() {
   const [onboardOpen, setOnboardOpen] = useState(false);
-  const [mobileMockupView, setMobileMockupView] = useState<"chat" | "explore">("chat");
+  const [faqFilter, setFaqFilter] = useState<"all" | "listeners" | "stations" | "general">("all");
 
-  // Simulator State
-  const [simMessage, setSimMessage] = useState("Big up DJ Mike! Playing heat on the morning drive 🔥");
-  const [simStep, setSimStep] = useState<"idle" | "sending" | "approved">("approved");
-  const [activePreset, setActivePreset] = useState<number | null>(0);
-
-  // API Copy State
-  const [copiedApi, setCopiedApi] = useState(false);
-
-  // Filter States
-  const [countryFilter, setCountryFilter] = useState<"all" | "east" | "west" | "other">("all");
-  const [faqFilter, setFaqFilter] = useState<"all" | "station" | "tv" | "billing">("all");
-
-  const presetShoutouts = [
-    "Big up DJ Mike! Playing heat on the morning drive 🔥",
-    "Please play Sauti Sol - Suzanna for my sister Amina! 🎶",
-    "Locked in from Westlands Nairobi! Ready for the cash trivia 🏆",
-    "Put me live on air! Calling from Kampala studio queue 🎙️",
+  const campaigns: Campaign[] = [
+    {
+      id: "artist-requests",
+      title: "Artist Requests",
+      subtitle: "Turn your support into airplay! Request tracks directly on radio stations.",
+      image: "/campaigns/artist-requests.png",
+      tag: "Music & Artists",
+    },
+    {
+      id: "brand-engagement",
+      title: "Brand Engagement",
+      subtitle: "Engage with brands and services via live interactive chat. Chat. Discover. Connect.",
+      image: "/campaigns/brand-engagement.png",
+      tag: "Brand Activation",
+    },
+    {
+      id: "get-app",
+      title: "Download StudioPass",
+      subtitle: "Your favorite radio and TV stations everywhere. Get the app today on iOS & Android.",
+      image: "/campaigns/get-app.png",
+      tag: "Mobile App",
+    },
+    {
+      id: "shoutouts",
+      title: "Shoutouts & Opinions",
+      subtitle: "Got a birthday shoutout, message, or opinion? Reach your station instantly.",
+      image: "/campaigns/shoutouts.png",
+      tag: "Live On-Air",
+    },
+    {
+      id: "coming-soon",
+      title: "What's Next",
+      subtitle: "Uganda something big is coming soon! Stay tuned and don't miss the new wave.",
+      image: "/campaigns/coming-soon.png",
+      tag: "Announcements",
+    },
   ];
 
-  const handleSimSend = (customText?: string) => {
-    const textToSend = customText || simMessage;
-    if (!textToSend.trim()) return;
-    setSimMessage(textToSend);
-    setSimStep("sending");
-    setTimeout(() => {
-      setSimStep("approved");
-    }, 900);
-  };
-
-  const handleCopyApi = () => {
-    const apiSnippet = `GET /api/v1/station/ticker HTTP/1.1
-Host: studio.studiopass.app
-Authorization: Bearer sk_live_capitalfm_984
-Content-Type: application/json
-
-{
-  "status": "sent_to_output",
-  "author": "David M.",
-  "top_fan_rank": 1,
-  "message": "Watching live from Kampala!",
-  "timestamp": "${new Date().toISOString()}"
-}`;
-    navigator.clipboard?.writeText(apiSnippet);
-    setCopiedApi(true);
-    setTimeout(() => setCopiedApi(false), 2000);
-  };
-
-  // 4 Scenarios Data with Rich Visual Previews
-  const scenarioItems = [
+  const audienceItems: StackingCardItem[] = [
     {
-      title: "Live Radio Broadcasts",
-      badge: "HD Voice & Chat",
+      id: "listeners",
+      tag: "For Listeners",
+      title: "Send Shoutouts. Request Songs. Call Live On-Air.",
+      description:
+        "Connect directly with your favourite radio and TV stations. Wish someone a happy birthday, request a trending track, vote in polls, or join live on-air calls — all in one simple app.",
+      features: [
+        "Send messages & voice notes",
+        "Request your favourite songs",
+        "Send on-air shoutouts",
+        "Call participating Radio/TV stations",
+        "Vote in live polls & rankings",
+        "Join fun audience challenges",
+      ],
+      ctaText: "Download StudioPass",
+      ctaHref: "#download",
+      accentColor: "#1e60f2",
+      bgGradient: "linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)",
+      icon: <Headphones className="w-5 h-5" />,
+      image: "/images/audience-listeners.png",
+      imageAlt: "StudioPass Listener Mobile Experience",
+      badgeText: "Live Listener Interaction",
+    },
+    {
+      id: "artists",
+      tag: "For Artists & Creators",
+      title: "Turn Your Support into Airplay. Grow Your Fanbase.",
+      description:
+        "Give fans an instant, direct path to request your songs on radio, send shoutouts, and support your career. StudioPass bridges independent musicians with major broadcast platforms.",
+      features: [
+        "Connect with loyal fans directly",
+        "Encourage on-air song requests",
+        "Receive fan voice notes & love",
+        "Run dedicated voting campaigns",
+        "Promote releases across stations",
+        "Track fan engagement data",
+      ],
+      ctaText: "Join as an Artist",
+      ctaHref: "#partner",
+      accentColor: "#0ea5e9",
+      bgGradient: "linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)",
+      icon: <Music className="w-5 h-5" />,
+      image: "/images/audience-artists.png",
+      imageAlt: "Artist Airplay and Fan Requests",
+      badgeText: "Airplay Booster & Charting",
+    },
+    {
+      id: "stations",
+      tag: "For Radio & TV Stations",
+      title: "Receive Messages. Manage Live Calls. Real-Time Playout.",
+      description:
+        "Give your on-air presenters and studio teams an all-in-one console to curate listener voice notes, moderate live audio callers, run instant polls, and display requests on studio screens.",
+      features: [
+        "Receive audience messages & voice notes",
+        "Manage live on-air callers with screener",
+        "Automated song request queue",
+        "Live interactive polls & audience voting",
+        "Comprehensive listener analytics",
+        "Fast broadcast onboarding in 48 hours",
+      ],
+      ctaText: "Onboard Your Station",
+      ctaHref: "#partner",
+      accentColor: "#2563eb",
+      bgGradient: "linear-gradient(135deg, #ffffff 0%, #eef2ff 100%)",
       icon: <Radio className="w-5 h-5" />,
-      description:
-        "Give on-air radio presenters a unified live console. Incoming WhatsApp-style messages, song requests, listener sentiment, and direct live audio studio calls.",
-      features: [
-        "Dedicated show presenter views",
-        "HD studio caller queue with audio wave",
-        "Canned quick-reply templates",
-        "Real-time listener sentiment meter",
-      ],
-      visualPreview: (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-[11px] pb-1 border-b border-white/5">
-            <span className="font-semibold text-white flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-              1 On-Air Caller Live
-            </span>
-            <span className="text-emerald-400 font-mono text-[10px]">0.08s Latency</span>
-          </div>
-          <div className="flex items-center justify-between bg-black/40 rounded-lg p-2 border border-white/5">
-            <div className="text-[11px] text-slate-300">
-              <div className="font-bold text-white">Kevin O. (Nairobi)</div>
-              <div className="text-[9px] text-slate-400">+254 712***89</div>
-            </div>
-            <AudioVisualizer barCount={10} color="#10b981" />
-          </div>
-        </div>
-      ),
+      image: "/images/audience-stations.png",
+      imageAlt: "Broadcaster Studio Console",
+      badgeText: "Studio Console & Playout",
     },
     {
-      title: "Television Playout Tickers",
-      badge: "Direct Playout API",
-      icon: <Tv className="w-5 h-5" />,
+      id: "brands",
+      tag: "For Brands & Advertisers",
+      title: "Direct Audience Chat. Sponsored Polls. Real ROI.",
       description:
-        "Control rooms curate and approve viewer comments in seconds. Approved messages push instantly to on-screen TV lower-thirds and graphics overlays.",
+        "Transform one-way traditional broadcast radio/TV commercials into direct interactive chat channels, branded prize challenges, instant consumer feedback, and measurable conversions.",
       features: [
-        "1-click broadcast moderation",
-        "API feeds for vMix, TriCaster, OBS",
-        "Viewer avatar & handle display",
-        "Zero expensive broadcast hardware",
+        "Direct 2-way consumer chat activations",
+        "Sponsored broadcast polls & quizzes",
+        "Product discovery & coupon drops",
+        "Audience sentiment & feedback data",
+        "Interactive cross-media campaigns",
+        "Measurable customer acquisition",
       ],
-      visualPreview: (
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between text-[10px] text-slate-400">
-            <span className="text-[#38bdf8] font-bold">● TV Lower-Third Live Crawl</span>
-            <span className="text-emerald-400 font-mono">60 FPS Output</span>
-          </div>
-          <div className="p-2 rounded-lg bg-[#0e162a] border border-[#00B2FF]/40 text-[11px]">
-            <span className="font-bold text-amber-300">★ Brian K. [Top Fan #1]: </span>
-            <span className="text-slate-200">&quot;Playing non-stop classics today!&quot;</span>
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Channels, Brands & Artists",
-      badge: "Sponsorship & Quizzes",
-      icon: <Trophy className="w-5 h-5" />,
-      description:
-        "Turn passive viewers into brand champions. Run sponsored quizzes, live polls, fastest-answer trivia, and automate cash disbursements to winners.",
-      features: [
-        "Interactive cash challenges",
-        "Automated Mobile Money payouts",
-        "Sponsored hashtag polls",
-        "Direct audience CRM directory",
-      ],
-      visualPreview: (
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between text-[10px] text-slate-400">
-            <span className="text-amber-400 font-bold">🏆 Cash Trivia Winner</span>
-            <span className="text-emerald-400 font-mono">Disbursed</span>
-          </div>
-          <div className="p-2 rounded-lg bg-emerald-950/40 border border-emerald-500/30 flex items-center justify-between text-[11px]">
-            <div>
-              <div className="font-bold text-white">Mary N. (Uganda)</div>
-              <div className="text-[9px] text-emerald-300 font-mono">+UGX 50,000 via MTN MoMo</div>
-            </div>
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-          </div>
-        </div>
-      ),
-    },
-    {
-      title: "Audiences & Top Fans",
-      badge: "Flutter Mobile App",
-      icon: <Smartphone className="w-5 h-5" />,
-      description:
-        "Frictionless OTP mobile experience. Listeners follow favorite stations, hear their messages read on air, earn weekly Top Fan ranks, and post 24h stories.",
-      features: [
-        "Zero-password phone login",
-        "Weekly Top Fan badges (Ranks 1–5)",
-        "24-hour video & photo stories",
-        "Carrier billing & mobile money top-ups",
-      ],
-      visualPreview: (
-        <div className="space-y-1.5">
-          <div className="flex items-center justify-between text-[10px] text-slate-400">
-            <span className="text-[#38bdf8] font-bold">★ Verified Listener Rank</span>
-            <span className="text-amber-300 font-mono">Rank #1 Fan</span>
-          </div>
-          <div className="p-2 rounded-lg bg-[#141d33] border border-white/10 flex items-center gap-2 text-[11px]">
-            <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-amber-400 to-yellow-200 text-black font-black flex items-center justify-center text-[10px]">
-              ★
-            </div>
-            <div className="min-w-0">
-              <div className="font-bold text-white truncate">Brian K. (Nairobi)</div>
-              <div className="text-[9px] text-slate-400">42 Messages Sent • 18 Credits Left</div>
-            </div>
-          </div>
-        </div>
-      ),
+      ctaText: "Partner with Us",
+      ctaHref: "#partner",
+      accentColor: "#f59e0b",
+      bgGradient: "linear-gradient(135deg, #ffffff 0%, #fffbeb 50%, #f0f7ff 100%)",
+      icon: <Megaphone className="w-5 h-5" />,
+      image: "/images/audience-brands.png",
+      imageAlt: "Brand Engagement and Analytics",
+      badgeText: "Direct Consumer Engagement",
     },
   ];
 
-  // FAQ Data with Categories
   const faqItems = [
     {
-      category: "station",
-      question: "Do radio or TV stations need to install dedicated hardware?",
+      category: "listeners",
+      question: "What is StudioPass?",
       answer:
-        "No. StudioPass is 100% cloud-based. Station admins and presenters simply log in through any modern web browser. For TV stations, your existing playout software (vMix, TriCaster, CasparCG, OBS, or HTML overlays) pulls approved messages via our low-latency Station Playout API.",
+        "StudioPass is an international media interaction platform that connects listeners and viewers directly with Radio Stations, TV Stations, Creators and Brands. You can send messages, voice notes, song requests, shoutouts, call live on-air, vote in polls, join challenges and more.",
     },
     {
-      category: "tv",
-      question: "How does the TV playout ticker integration work?",
+      category: "listeners",
+      question: "Is StudioPass free for listeners to download and use?",
       answer:
-        "When your station admin or control-room operator approves a viewer's message in the StudioPass dashboard, it is assigned the 'sent_to_output' status. Your broadcast character generator or browser source queries your private Station API Key and renders the message as an animated lower-third overlay in real time.",
+        "Yes! Downloading the StudioPass app is completely free on both Google Play and Apple App Store. Core features like following stations, sending requests, and participating in audience polls are completely free.",
     },
     {
-      category: "station",
-      question: "How does live in-app audio studio calling work?",
+      category: "stations",
+      question: "How do radio and TV stations join StudioPass?",
       answer:
-        "The StudioPass mobile app uses high-definition, low-latency audio streaming. When a listener taps 'Call Studio', they enter the station's live queue. The presenter sees the caller's name, city, and wait time, and can bring them live on-air with one click.",
+        "Stations can apply by clicking 'Become a Partner'. Our onboarding team provides your studio with access to the broadcaster dashboard, setup assistance, and presenter training within 48 hours.",
     },
     {
-      category: "billing",
-      question: "How do listeners pay for message packs and participation?",
+      category: "stations",
+      question: "What equipment does our studio need to use StudioPass?",
       answer:
-        "StudioPass integrates directly with leading East and Central African telecom billing channels, including MTN Mobile Money, Airtel Money, and Safaricom M-Pesa. Listeners purchase credit packs in their local currency with zero friction.",
+        "StudioPass is cloud-based and runs in any modern web browser on your studio laptops, iPads, or studio touchscreens. It integrates easily with your existing mixer console and audio playout software.",
     },
     {
-      category: "station",
-      question: "How does partner onboarding work?",
+      category: "general",
+      question: "On which platforms is StudioPass available?",
       answer:
-        "Simply fill out our 8-field partner application form. Our station onboarding team reviews your broadcast frequencies or digital channels, sets up your studio console, generates your API keys, and trains your presenter team within 48 hours.",
+        "StudioPass is available for Android smartphones on the Google Play Store and for iPhone on the Apple App Store, with companion web access for partners and station presenters.",
+    },
+    {
+      category: "listeners",
+      question: "Can I request songs and send voice notes?",
+      answer:
+        "Yes! You can record a voice note or submit a song request directly to your favourite show. Studio presenters receive them instantly and can air them live during their broadcast.",
+    },
+    {
+      category: "general",
+      question: "How can brands and advertisers use StudioPass?",
+      answer:
+        "Brands can run sponsored interactive polls, quizzes, product shoutouts, customer feedback channels, and live promotions across partnering radio and television stations.",
     },
   ];
 
-  // Filtered Countries
-  const filteredCountries = OPERATING_COUNTRIES.filter((c) => {
-    if (countryFilter === "all") return true;
-    if (countryFilter === "east") return ["KE", "UG", "TZ"].includes(c.code);
-    if (countryFilter === "west") return ["NG", "GH"].includes(c.code);
-    if (countryFilter === "other") return ["ZA", "EG"].includes(c.code);
-    return true;
-  });
-
-  // Filtered FAQ
   const filteredFaq = faqItems.filter((item) => {
     if (faqFilter === "all") return true;
     return item.category === faqFilter;
   });
 
   return (
-    <div className="min-h-screen bg-[#080c15] text-slate-200 overflow-x-hidden selection:bg-[#1e60f2] selection:text-white">
+    <div className="min-h-screen bg-white text-slate-900 overflow-x-clip font-sans">
       {/* Global Navbar */}
       <Navbar />
 
       {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 1. HERO SECTION (With Increased Breathing Room & Soft Beam Fade)       */}
+      {/* HERO SECTION                                                          */}
       {/* ────────────────────────────────────────────────────────────────────── */}
-      <section className="relative pt-20 pb-20 md:pt-28 md:pb-36 overflow-hidden">
-        <BackgroundBeamsWithCollision className="pb-12 pt-4">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
-            {/* Live Broadcast Badge with Glow Aura */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="mb-8 relative"
-            >
-              <div className="absolute inset-0 bg-[#38bdf8]/20 rounded-full blur-md -z-10" />
-              <LiveBadge
-                text="LIVE ON AIR"
-                subtext="Powering 24+ Radio & TV Stations"
-              />
-            </motion.div>
+      <section className="relative pt-16 pb-24 md:pt-28 md:pb-36 overflow-hidden bg-gradient-to-b from-blue-50/50 via-white to-white">
+        {/* Soft atmospheric glow */}
+        <div className="absolute top-0 right-0 w-[750px] h-[750px] bg-[#1e60f2]/6 rounded-full blur-3xl -translate-y-1/3 translate-x-1/4 pointer-events-none" />
+        <div className="absolute top-1/2 left-0 w-[550px] h-[550px] bg-sky-400/6 rounded-full blur-3xl -translate-x-1/4 pointer-events-none" />
 
-            {/* Main Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight max-w-5xl leading-[1.1]"
-            >
-              Turn Broadcast Audiences into{" "}
-              <span className="bg-gradient-to-r from-[#1e60f2] via-[#38bdf8] to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(56,189,248,0.35)]">
-                Active, Monetized
-              </span>{" "}
-              Participants.
-            </motion.h1>
-
-            {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="mt-6 text-base sm:text-xl text-slate-300 max-w-3xl leading-relaxed"
-            >
-              The all-in-one engagement infrastructure for Radio, Television,
-              and Digital Channels. Real-time presenter chat, live HD studio voice
-              calls, automated TV playout tickers, and mobile money revenue.
-            </motion.p>
-
-            {/* Dual CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
-            >
-              <Button
-                variant="glow"
-                size="lg"
-                onClick={() => setOnboardOpen(true)}
-                className="w-full sm:w-auto text-base"
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+            {/* Left: Text Content (7 cols on large screens) */}
+            <div className="lg:col-span-7 space-y-8">
+              {/* Category Pill */}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
               >
-                Onboard Your Station
-                <ArrowRight className="w-5 h-5 ml-1.5" />
-              </Button>
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#1e60f2] px-4 py-2 rounded-full bg-blue-50 border border-blue-200/70 shadow-xs inline-flex items-center gap-2">
+                  <RadioTower className="w-3.5 h-3.5 text-[#1e60f2]" />
+                  FOR LISTENERS, ARTISTS &amp; BRANDS
+                </span>
+              </motion.div>
 
-              <a href="#download" className="w-full sm:w-auto">
-                <Button variant="secondary" size="lg" className="w-full sm:w-auto text-base">
-                  <Download className="w-4 h-4 mr-2 text-[#38bdf8]" />
-                  Download Mobile App
+              {/* Main Headline */}
+              <motion.h1
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-[76px] font-black text-slate-900 tracking-tight leading-[1.06]"
+              >
+                One Platform.{" "}
+                <span className="text-[#1e60f2] block sm:inline">
+                  More Ways to Connect.
+                </span>
+              </motion.h1>
+
+              {/* Supporting Copy */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl leading-relaxed"
+              >
+                StudioPass brings listeners, artists and brands closer to the radio
+                and TV stations they love. Real people. Real conversations. A more
+                connected media community.
+              </motion.p>
+
+              {/* Primary CTAs + Store Badges */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="flex flex-wrap items-center gap-4 pt-1"
+              >
+                <Button
+                  size="lg"
+                  onClick={() => setOnboardOpen(true)}
+                  className="bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold text-base px-8 py-6 rounded-2xl shadow-xl shadow-[#1e60f2]/25 hover:shadow-2xl hover:shadow-[#1e60f2]/35 transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <Radio className="w-5 h-5" />
+                  Become a Partner
+                  <ArrowRight className="w-5 h-5 ml-1" />
                 </Button>
-              </a>
-            </motion.div>
 
-            {/* Key Value Proof Metrics */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-12 flex flex-wrap items-center justify-center gap-8 sm:gap-14 text-slate-400 text-xs sm:text-sm"
-            >
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#38bdf8]" />
-                <span>Zero hardware required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#38bdf8]" />
-                <span>Sub-second WebSockets delivery</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#38bdf8]" />
-                <span>Direct Mobile Money billing</span>
-              </div>
-            </motion.div>
-          </div>
-        </BackgroundBeamsWithCollision>
+                <a
+                  href="#download"
+                  className="inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 text-base font-bold border-2 border-slate-200 hover:border-slate-300 shadow-sm transition-all"
+                >
+                  <Download className="w-5 h-5 text-[#1e60f2]" />
+                  Download App
+                </a>
+              </motion.div>
 
-        {/* Hero Device Composition: Safari Studio Console + iPhone Fan App */}
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 relative z-20">
-          <div className="relative rounded-3xl p-3 sm:p-6 bg-gradient-to-b from-white/10 to-transparent border border-white/15 backdrop-blur-md shadow-2xl shadow-black">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              {/* Safari Desktop Frame: Live Station Moderation Console */}
-              <div className="lg:col-span-8">
-                <Safari url="studio.studiopass.app/station/capital-fm">
-                  <div className="flex bg-[#060b17] text-left min-h-[460px] text-xs font-sans select-none overflow-hidden">
-                    {/* Left Sidebar */}
-                    <div className="w-40 border-r border-white/10 bg-[#09101f] p-3.5 hidden sm:flex flex-col justify-between shrink-0">
-                      <div className="space-y-4">
-                        {/* Sidebar Brand */}
-                        <div className="flex items-center gap-2 px-1">
-                          <div className="h-6 w-6 rounded-lg bg-[#00B2FF] flex items-center justify-center font-black text-white text-xs shadow-md shadow-[#00B2FF]/30">
-                            SP
-                          </div>
-                          <span className="font-bold text-white text-sm tracking-tight">StudioPass</span>
-                        </div>
-
-                        {/* Station badge */}
-                        <div className="px-2 py-1.5 rounded-lg bg-white/5 border border-white/5 space-y-0.5">
-                          <div className="text-[9px] text-slate-400 uppercase tracking-wider font-semibold">Station Console</div>
-                          <div className="text-[11px] font-bold text-white truncate">Capital FM 98.4</div>
-                        </div>
-
-                        {/* Nav Items */}
-                        <nav className="space-y-1">
-                          <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-[#00B2FF]/20 text-[#38bdf8] font-semibold border border-[#00B2FF]/30">
-                            <Radio className="w-3.5 h-3.5" />
-                            <span>Dashboard</span>
-                          </div>
-                          <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-colors">
-                            <div className="flex items-center gap-2">
-                              <MessageSquare className="w-3.5 h-3.5" />
-                              <span>Messages</span>
-                            </div>
-                            <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-[#00B2FF]/30 text-[#38bdf8] font-bold">1.4k</span>
-                          </div>
-                          <div className="flex items-center justify-between px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-colors">
-                            <div className="flex items-center gap-2">
-                              <PhoneCall className="w-3.5 h-3.5" />
-                              <span>Live Calls</span>
-                            </div>
-                            <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-400 font-bold">1 Live</span>
-                          </div>
-                          <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-colors">
-                            <Tv className="w-3.5 h-3.5" />
-                            <span>TV Ticker API</span>
-                          </div>
-                          <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-slate-400 hover:text-white transition-colors">
-                            <Wallet className="w-3.5 h-3.5" />
-                            <span>Mobile Money</span>
-                          </div>
-                        </nav>
-                      </div>
-
-                      {/* Presenter Profile Status */}
-                      <div className="pt-3 border-t border-white/10 flex items-center gap-2">
-                        <div className="h-7 w-7 rounded-full bg-gradient-to-tr from-[#00B2FF] to-blue-600 flex items-center justify-center text-white font-bold text-[10px]">
-                          DM
-                        </div>
-                        <div className="min-w-0">
-                          <div className="text-[11px] font-bold text-white truncate">DJ Mike</div>
-                          <div className="text-[9px] text-emerald-400 font-mono">● Host On-Air</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Main Console Workspace */}
-                    <div className="flex-1 p-3.5 sm:p-5 flex flex-col justify-between space-y-3 overflow-hidden">
-                      {/* Top Broadcast Master Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 border-b border-white/10">
-                        <div className="flex items-center gap-2.5">
-                          <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-red-500/20 border border-red-500/40 text-red-400 text-[10px] font-extrabold tracking-wide animate-pulse">
-                            <span className="h-1.5 w-1.5 rounded-full bg-red-500" />
-                            ON AIR LIVE
-                          </span>
-                          <span className="font-bold text-white text-xs sm:text-sm">
-                            The Morning Breakfast Club
-                          </span>
-                          <span className="hidden md:inline text-slate-500 text-[11px]">|</span>
-                          <span className="hidden md:inline text-slate-400 text-[11px]">06:00 – 10:00 EAT</span>
-                        </div>
-
-                        {/* Digital Studio Clock */}
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-black/40 border border-white/10 text-emerald-400 font-mono text-[11px]">
-                            <Clock className="w-3 h-3" />
-                            <span>14:32:08 UTC</span>
-                          </div>
-                          <AudioVisualizer barCount={8} color="#00B2FF" />
-                        </div>
-                      </div>
-
-                      {/* Real-time KPI summary */}
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5">
-                          <div className="text-[10px] text-slate-400">Live On-Air Call</div>
-                          <div className="text-sm sm:text-base font-extrabold text-emerald-400 flex items-center gap-1.5">
-                            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                            1 Active
-                          </div>
-                        </div>
-                        <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5">
-                          <div className="text-[10px] text-slate-400">Caller Queue</div>
-                          <div className="text-sm sm:text-base font-extrabold text-amber-400">3 Waiting</div>
-                        </div>
-                        <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5">
-                          <div className="text-[10px] text-slate-400">Messages Today</div>
-                          <div className="text-sm sm:text-base font-extrabold text-[#38bdf8]">1,420</div>
-                        </div>
-                        <div className="p-2 sm:p-2.5 rounded-xl bg-white/5 border border-white/5">
-                          <div className="text-[10px] text-slate-400">Collections (MoMo)</div>
-                          <div className="text-sm sm:text-base font-extrabold text-white">14.45M UGX</div>
-                        </div>
-                      </div>
-
-                      {/* Dual Operational Views: Studio Voice Caller Queue + Live Audience Stream */}
-                      <div className="grid grid-cols-1 md:grid-cols-12 gap-3 flex-1">
-                        {/* Live Studio Caller Queue (Col 1-5) */}
-                        <div className="md:col-span-5 p-3 rounded-xl bg-[#0a1222] border border-white/10 flex flex-col justify-between space-y-2">
-                          <div>
-                            <div className="flex items-center justify-between pb-1.5 border-b border-white/5 text-[11px] font-semibold text-slate-300">
-                              <span className="flex items-center gap-1 text-[#38bdf8]">
-                                <PhoneCall className="w-3 h-3" />
-                                HD Studio Voice Queue
-                              </span>
-                              <span className="text-[10px] text-emerald-400 font-mono">0.08s Latency</span>
-                            </div>
-
-                            {/* Active Caller Card */}
-                            <div className="mt-2 p-2.5 rounded-lg bg-emerald-950/30 border border-emerald-500/30 space-y-1.5">
-                              <div className="flex items-center justify-between">
-                                <span className="text-[11px] font-bold text-white flex items-center gap-1">
-                                  <span>Kevin O.</span>
-                                  <span className="text-[9px] text-emerald-400 font-normal">(Nairobi)</span>
-                                </span>
-                                <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300">
-                                  02:45 Live
-                                </span>
-                              </div>
-                              <div className="text-[10px] text-slate-400 font-mono">+254 712***89</div>
-                              <div className="flex items-center justify-between pt-1">
-                                <AudioVisualizer barCount={10} color="#10b981" />
-                                <button className="px-2 py-0.5 rounded bg-red-500/20 text-red-300 border border-red-500/40 text-[10px] font-semibold hover:bg-red-500/30">
-                                  Cut Call
-                                </button>
-                              </div>
-                            </div>
-
-                            {/* Waiting in Queue */}
-                            <div className="mt-2 p-2 rounded-lg bg-white/5 border border-white/5 flex items-center justify-between text-[11px]">
-                              <div>
-                                <div className="font-semibold text-slate-200">Mary N. (Kampala)</div>
-                                <div className="text-[9px] text-amber-400 font-mono">Wait: 1m 15s</div>
-                              </div>
-                              <button className="px-2 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold hover:bg-emerald-500">
-                                Put Live
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* Audience Messages & TV Playout Ticker (Col 6-12) */}
-                        <div className="md:col-span-7 p-3 rounded-xl bg-[#0a1222] border border-white/10 flex flex-col justify-between space-y-2">
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between pb-1.5 border-b border-white/5 text-[11px] font-semibold text-slate-300">
-                              <span>Live Messages Stream</span>
-                              <span className="text-[10px] text-[#38bdf8]">Auto Playout ON</span>
-                            </div>
-
-                            {/* Message 1: Approved on Ticker */}
-                            <div className="p-2.5 rounded-lg bg-[#121c32] border border-[#00B2FF]/40 space-y-1">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-1.5">
-                                  <span className="font-bold text-white text-[11px]">Brian K. (Nairobi)</span>
-                                  <span className="text-[9px] px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 font-bold">★ Top Fan #1</span>
-                                </div>
-                                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                                  ✓ On TV Ticker
-                                </span>
-                              </div>
-                              <p className="text-[11px] text-slate-300">&quot;Playing non-stop classics today! Shoutout to the Westlands crew!&quot;</p>
-                            </div>
-
-                            {/* Message 2: Pending Playout */}
-                            <div className="p-2 rounded-lg bg-white/5 border border-white/5 flex items-center justify-between gap-2">
-                              <div className="min-w-0">
-                                <div className="font-semibold text-slate-200 text-[11px] truncate">Amina M. (Mombasa)</div>
-                                <p className="text-[10px] text-slate-400 truncate">&quot;Please play Sauti Sol - Suzanna for my sister!&quot;</p>
-                              </div>
-                              <button className="shrink-0 px-2 py-1 rounded bg-[#00B2FF] text-white text-[10px] font-bold hover:bg-[#38bdf8]">
-                                Send Playout
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Presenter Quick Reply */}
-                          <div className="pt-2 border-t border-white/5 flex items-center gap-2">
-                            <input
-                              type="text"
-                              readOnly
-                              value="Big shoutout coming up for Westlands! 🎵"
-                              className="flex-1 bg-white/5 border border-white/10 rounded-lg px-2.5 py-1 text-[10px] text-slate-300 focus:outline-none"
-                            />
-                            <button className="px-2.5 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold shrink-0">
-                              Reply
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Safari>
-              </div>
-
-              {/* iPhone 15 Pro Frame: Listener App Live Chat & Explore */}
-              <div className="lg:col-span-4 flex flex-col items-center justify-center">
-                {/* View Switcher Toggle */}
-                <div className="mb-3 flex items-center gap-1.5 p-1 rounded-full bg-white/10 border border-white/15 text-[11px] font-semibold">
-                  <button
-                    onClick={() => setMobileMockupView("chat")}
-                    className={`px-3 py-1 rounded-full transition-all ${
-                      mobileMockupView === "chat"
-                        ? "bg-[#00B2FF] text-white shadow-md"
-                        : "text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    Live Chat & Call
-                  </button>
-                  <button
-                    onClick={() => setMobileMockupView("explore")}
-                    className={`px-3 py-1 rounded-full transition-all ${
-                      mobileMockupView === "explore"
-                        ? "bg-[#00B2FF] text-white shadow-md"
-                        : "text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    Stations Explore
-                  </button>
-                </div>
-
-                <Iphone15Pro className="scale-95 sm:scale-100 shadow-2xl">
-                  {mobileMockupView === "chat" ? (
-                    /* ─── REAL FLUTTER CHAT & CALL VIEW ─── */
-                    <div className="flex flex-col h-full justify-between text-left bg-[#0D0D0D] text-white select-none">
-                      {/* Flutter Top App Bar */}
-                      <div>
-                        <div className="p-3 bg-[#121212] border-b border-[#2A2D3E] flex items-center justify-between">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-slate-400 text-xs">‹</span>
-                            <div className="h-8 w-8 rounded-full bg-[#00B2FF] flex items-center justify-center font-bold text-white text-xs shrink-0 shadow-sm">
-                              CAP
-                            </div>
-                            <div className="min-w-0">
-                              <div className="flex items-center gap-1">
-                                <span className="font-bold text-white text-xs truncate">Capital FM 98.4</span>
-                                <span className="text-[#00B2FF] text-[11px]">✓</span>
-                              </div>
-                              <span className="text-[9px] text-slate-400 block truncate">Host: DJ Mike</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            <button className="px-2 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center gap-1 text-emerald-400 hover:scale-105 transition-transform text-[10px] font-semibold">
-                              <PhoneCall className="w-3 h-3" />
-                              <span>Call Studio</span>
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* Flutter Show Status Banner */}
-                        <div className="px-3 py-1.5 bg-[#00B2FF]/15 border-b border-[#00B2FF]/20 flex items-center gap-2">
-                          <span className="h-2 w-2 rounded-full bg-[#00B2FF] animate-pulse" />
-                          <span className="text-[10px] font-semibold text-[#38bdf8] truncate">
-                            LIVE — The Morning Breakfast Club (1h 45m left)
-                          </span>
-                        </div>
-
-                        {/* Real Chat Message Bubbles */}
-                        <div className="p-3 space-y-2 text-xs">
-                          {/* Station Presenter Bubble */}
-                          <div className="bg-[#181818] p-2.5 rounded-2xl rounded-tl-none border border-[#2A2D3E] text-slate-200 space-y-1">
-                            <div className="flex items-center gap-1 text-[10px] text-[#00B2FF] font-bold">
-                              <span>DJ Mike (Presenter)</span>
-                              <span className="text-[9px] px-1 py-0.2 rounded bg-[#00B2FF]/20 text-[#00B2FF]">Host</span>
-                            </div>
-                            <p className="text-[11px] leading-relaxed">Welcome to Friday Breakfast! Who wants the next shoutout on air?</p>
-                          </div>
-
-                          {/* Listener User Bubble */}
-                          <div className="bg-[#00B2FF]/25 p-2.5 rounded-2xl rounded-tr-none border border-[#00B2FF]/40 text-white ml-auto max-w-[88%] space-y-1">
-                            <div className="text-[10px] text-amber-300 font-bold flex items-center justify-between">
-                              <span>You</span>
-                              <span className="text-[9px] text-amber-300">★ Rank 1</span>
-                            </div>
-                            <p className="text-[11px] leading-relaxed">Locked in from Westlands! Playing the hottest mixes today 🔥</p>
-                          </div>
-
-                          {/* Station Presenter Followup */}
-                          <div className="bg-[#181818] p-2 rounded-2xl rounded-tl-none border border-[#2A2D3E] text-slate-200 space-y-0.5">
-                            <div className="flex items-center gap-1 text-[10px] text-[#00B2FF] font-bold">
-                              <span>DJ Mike</span>
-                              <span className="text-[8px] text-slate-400">just now</span>
-                            </div>
-                            <p className="text-[11px] leading-relaxed">Shoutout locked in! Tap Call Studio above to go live on-air 🎙️</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Bottom Controls */}
-                      <div>
-                        {/* Balance Bar */}
-                        <div className="px-3 py-1 bg-[#121212] border-t border-[#2A2D3E] flex items-center justify-between text-[10px]">
-                          <span className="text-slate-400 flex items-center gap-1">
-                            <Wallet className="w-3 h-3 text-slate-400" />
-                            Credit Balance:
-                          </span>
-                          <span className="text-[#00B2FF] font-bold font-mono">18 Credits Available</span>
-                        </div>
-
-                        {/* Real ChatInputBar */}
-                        <div className="p-2 bg-[#121212] border-t border-[#2A2D3E] flex items-center gap-2">
-                          <div className="flex-1 bg-[#1c1f2e] border border-[#2A2D3E] rounded-full px-3 py-1.5 flex items-center justify-between text-xs text-slate-400">
-                            <span className="text-[10px] truncate text-slate-400">Message studio presenter...</span>
-                          </div>
-                          <button className="h-7 w-7 rounded-full bg-[#00B2FF] text-white flex items-center justify-center shrink-0 shadow-sm shadow-[#00B2FF]/40 hover:scale-105 transition-transform">
-                            <Send className="w-3 h-3" />
-                          </button>
-                        </div>
-
-                        {/* Flutter 5-Tab Bottom Navigation Bar */}
-                        <div className="p-2 bg-[#0D0D0D] border-t border-[#2A2D3E] grid grid-cols-5 text-center text-[9px]">
-                          <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                            <Radio className="w-3.5 h-3.5" />
-                            <span>Home</span>
-                          </div>
-                          <div className="flex flex-col items-center gap-0.5 text-[#00B2FF] font-bold">
-                            <MessageSquare className="w-3.5 h-3.5" />
-                            <span>Chat</span>
-                          </div>
-                          <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                            <Flame className="w-3.5 h-3.5" />
-                            <span>Status</span>
-                          </div>
-                          <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                            <PhoneCall className="w-3.5 h-3.5" />
-                            <span>Call</span>
-                          </div>
-                          <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                            <Users className="w-3.5 h-3.5" />
-                            <span>More</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ) : (
-                    /* ─── REAL FLUTTER HOME / EXPLORE VIEW ─── */
-                    <div className="flex flex-col h-full justify-between text-left bg-[#0D0D0D] text-white select-none">
-                      <div>
-                        {/* Cyan Header with Greeting + Search */}
-                        <div className="bg-[#00B2FF] p-3.5 rounded-b-2xl shadow-lg space-y-2.5">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2">
-                              <div className="h-7 w-7 rounded-full bg-white/20 border border-white/30 flex items-center justify-center font-bold text-white text-xs">
-                                B
-                              </div>
-                              <span className="font-bold text-white text-xs">Hi, Brian</span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                              <div className="px-2 py-0.5 rounded-md bg-white/20 text-white text-[10px] font-semibold flex items-center gap-1">
-                                <Wallet className="w-3 h-3" />
-                                <span>18 Credits</span>
-                              </div>
-                              <div className="h-6 w-6 rounded-md bg-white/20 flex items-center justify-center text-white text-[11px]">
-                                <QrCode className="w-3.5 h-3.5" />
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Embedded Search Bar */}
-                          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#43B7F1] text-white text-[11px]">
-                            <Search className="w-3.5 h-3.5 text-white/80" />
-                            <span className="text-white/80">Search radio, TV, presenter...</span>
-                          </div>
-                        </div>
-
-                        {/* Category Pills */}
-                        <div className="p-3 space-y-2.5">
-                          <div className="flex items-center gap-2 text-[10px]">
-                            <span className="px-2.5 py-1 rounded-full bg-[#00B2FF] text-white font-bold">
-                              📻 Radios
-                            </span>
-                            <span className="px-2.5 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">
-                              📺 TVs
-                            </span>
-                            <span className="px-2.5 py-1 rounded-full bg-white/5 text-slate-400 border border-white/10">
-                              ⚡ Channels
-                            </span>
-                          </div>
-
-                          {/* Station Cards */}
-                          <div className="space-y-2">
-                            {/* Station 1 */}
-                            <div className="p-2.5 rounded-xl bg-[#121212] border border-[#2A2D3E] flex items-center justify-between gap-2">
-                              <div className="flex items-center gap-2.5 min-w-0">
-                                <div className="h-9 w-9 rounded-lg bg-[#00B2FF]/20 border border-[#00B2FF]/30 flex items-center justify-center text-[#00B2FF] font-bold text-xs shrink-0">
-                                  CAP
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1">
-                                    <span className="font-bold text-white text-xs truncate">Capital FM</span>
-                                    <span className="text-[#00B2FF] text-[10px]">✓</span>
-                                  </div>
-                                  <span className="text-[9px] text-amber-400 font-semibold block">★ Trivia Active</span>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-1.5 shrink-0">
-                                <button className="px-2 py-1 rounded-lg bg-[#00B2FF] text-white text-[10px] font-bold">
-                                  Message
-                                </button>
-                              </div>
-                            </div>
-
-                            {/* Station 2 */}
-                            <div className="p-2.5 rounded-xl bg-[#121212] border border-[#2A2D3E] flex items-center justify-between gap-2">
-                              <div className="flex items-center gap-2.5 min-w-0">
-                                <div className="h-9 w-9 rounded-lg bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-bold text-xs shrink-0">
-                                  CIT
-                                </div>
-                                <div className="min-w-0">
-                                  <div className="flex items-center gap-1">
-                                    <span className="font-bold text-white text-xs truncate">Citizen TV</span>
-                                    <span className="text-[#00B2FF] text-[10px]">✓</span>
-                                  </div>
-                                  <span className="text-[9px] text-emerald-400 block">● Live On-Air</span>
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-1.5 shrink-0">
-                                <button className="px-2 py-1 rounded-lg bg-[#00B2FF] text-white text-[10px] font-bold">
-                                  Message
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Flutter 5-Tab Bottom Navigation Bar */}
-                      <div className="p-2 bg-[#0D0D0D] border-t border-[#2A2D3E] grid grid-cols-5 text-center text-[9px]">
-                        <div className="flex flex-col items-center gap-0.5 text-[#00B2FF] font-bold">
-                          <Radio className="w-3.5 h-3.5" />
-                          <span>Home</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                          <MessageSquare className="w-3.5 h-3.5" />
-                          <span>Chat</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                          <Flame className="w-3.5 h-3.5" />
-                          <span>Status</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                          <PhoneCall className="w-3.5 h-3.5" />
-                          <span>Call</span>
-                        </div>
-                        <div className="flex flex-col items-center gap-0.5 text-slate-500">
-                          <Users className="w-3.5 h-3.5" />
-                          <span>More</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </Iphone15Pro>
-              </div>
+              {/* Store Buttons with reference doodle arrow */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="pt-2 flex flex-wrap items-center gap-3.5 text-xs text-slate-500 font-medium"
+              >
+                <span className="font-semibold text-slate-700">Available on:</span>
+                <a
+                  href="#download"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors shadow-xs"
+                >
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <span>App Store</span>
+                </a>
+                <a
+                  href="#download"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition-colors shadow-xs"
+                >
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z"/>
+                    <path fill="#34A853" d="M14.5 11.29l2.302-2.302-10.938-6.33 8.636 8.632z"/>
+                    <path fill="#EA4335" d="M5.864 21.342l8.635-8.635 2.302 2.302-10.937 6.333z"/>
+                    <path fill="#FBBC05" d="M19.998 11.137l-2.302-1.33-2.535 2.193 2.535 2.193 2.302-1.33a1 1 0 000-1.726z"/>
+                  </svg>
+                  <span>Google Play</span>
+                </a>
+                <span className="hidden sm:inline-block text-[#1e60f2] font-bold italic ml-2">
+                  Download the app today! ↗
+                </span>
+              </motion.div>
             </div>
+
+            {/* Right: Visual Artwork with Artist & Phone Mockups (5 cols) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="lg:col-span-5 relative flex items-center justify-center"
+            >
+              {/* Decorative organic background shape */}
+              <div className="absolute w-[95%] h-[95%] rounded-3xl bg-gradient-to-tr from-[#1e60f2]/15 to-sky-400/25 blur-2xl -z-10" />
+
+              <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/80 bg-white">
+                <div className="relative aspect-4/3 w-full">
+                  <Image
+                    src="/images/hero-artist.jpg"
+                    alt="StudioPass Live Radio Studio"
+                    fill
+                    priority
+                    className="object-cover object-center"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+
+                  {/* Scribble Sticker Annotation */}
+                  <div className="absolute top-4 right-4 bg-[#1e60f2] text-white px-3.5 py-1.5 rounded-xl font-extrabold text-xs shadow-lg rotate-3 border border-white/30 flex items-center gap-1.5">
+                    <Radio className="w-3.5 h-3.5 text-amber-300" />
+                    Turn support into airplay!
+                  </div>
+
+                  {/* Floating App Preview Pill on bottom */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 w-10 rounded-xl bg-[#1e60f2] flex items-center justify-center text-white font-bold text-sm shadow-md">
+                        SP
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-900">StudioPass Mobile</p>
+                        <p className="text-[11px] text-slate-500">Radio &bull; TV &bull; Everywhere</p>
+                      </div>
+                    </div>
+                    <a
+                      href="#download"
+                      className="px-4 py-2 rounded-xl bg-[#1e60f2] hover:bg-[#185adb] text-white text-xs font-bold transition-colors"
+                    >
+                      Get App
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* Handwritten-style sticker pills */}
+              <div className="hidden sm:block absolute -top-5 -left-6 text-[#1e60f2] text-xs font-black -rotate-6 bg-white/95 backdrop-blur-xs px-4 py-1.5 rounded-full shadow-lg border border-blue-100">
+                Good Music Brings Us Closer ♡
+              </div>
+              <div className="hidden sm:block absolute -bottom-5 -right-4 text-slate-800 text-[11px] font-black uppercase tracking-wider rotate-3 bg-white/95 backdrop-blur-xs px-3.5 py-1.5 rounded-full shadow-md border border-slate-200">
+                REAL PEOPLE REAL AIRWAVES
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Reference Image 3: 4-Feature Highlights Bar under Hero */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-20 pt-10 border-t border-slate-200/80">
+            {[
+              {
+                icon: <Radio className="w-5 h-5 text-[#1e60f2]" />,
+                title: "Radio & TV",
+                desc: "Real conversations everywhere",
+              },
+              {
+                icon: <Users className="w-5 h-5 text-[#1e60f2]" />,
+                title: "Stronger Communities",
+                desc: "Fans. Artists. Brands. Together.",
+              },
+              {
+                icon: <BarChart3 className="w-5 h-5 text-[#1e60f2]" />,
+                title: "Meaningful Engagement",
+                desc: "More than just the airwaves",
+              },
+              {
+                icon: <Heart className="w-5 h-5 text-[#1e60f2]" />,
+                title: "Real People. Real Impact.",
+                desc: "A more connected tomorrow",
+              },
+            ].map((feat, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3.5 p-5 rounded-2xl bg-white border border-slate-200/70 shadow-xs hover:border-[#1e60f2]/40 hover:shadow-md transition-all"
+              >
+                <div className="p-3 rounded-xl bg-blue-50 shrink-0">
+                  {feat.icon}
+                </div>
+                <div>
+                  <h4 className="text-sm font-bold text-slate-900">{feat.title}</h4>
+                  <p className="text-xs text-slate-500 mt-1 leading-normal">{feat.desc}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 2. BROADCASTER & TELECOM SOCIAL PROOF MARQUEE (With Glow Accents)       */}
+      {/* AUDIENCE SECTIONS WITH STACKING CARDS                                  */}
       {/* ────────────────────────────────────────────────────────────────────── */}
-      <section className="py-12 border-y border-white/10 bg-[#060911] relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 mb-6 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-400 flex items-center justify-center gap-2">
-            <Sparkles className="w-3.5 h-3.5 text-[#38bdf8]" />
-            Powering Live Audience Engagement for Leading Broadcasters & Telecoms Across Africa
-          </p>
-        </div>
-
-        {/* Dual Marquee Rails */}
-        <div className="space-y-3.5">
-          <Marquee pauseOnHover className="[--duration:32s]">
-            {[
-              { name: "Capital FM 98.4", type: "radio", badge: "Radio", color: "text-[#38bdf8] border-[#38bdf8]/30" },
-              { name: "Citizen TV Live", type: "tv", badge: "TV Network", color: "text-purple-400 border-purple-500/30" },
-              { name: "Radio City 97FM", type: "radio", badge: "Radio", color: "text-[#38bdf8] border-[#38bdf8]/30" },
-              { name: "NTV Broadcast", type: "tv", badge: "TV Network", color: "text-purple-400 border-purple-500/30" },
-              { name: "Milele FM", type: "radio", badge: "Radio", color: "text-[#38bdf8] border-[#38bdf8]/30" },
-              { name: "NBS Television", type: "tv", badge: "TV Network", color: "text-purple-400 border-purple-500/30" },
-              { name: "Galaxy FM 100.2", type: "radio", badge: "Radio", color: "text-[#38bdf8] border-[#38bdf8]/30" },
-              { name: "Spark TV Live", type: "tv", badge: "TV Network", color: "text-purple-400 border-purple-500/30" },
-              { name: "Classic 105", type: "radio", badge: "Radio", color: "text-[#38bdf8] border-[#38bdf8]/30" },
-              { name: "KTN News Prime", type: "tv", badge: "TV Network", color: "text-purple-400 border-purple-500/30" },
-            ].map((station, i) => (
-              <div
-                key={i}
-                className="px-5 py-2.5 rounded-2xl bg-[#0c1424] border border-white/10 text-slate-200 font-semibold text-xs sm:text-sm flex items-center gap-2.5 hover:border-[#38bdf8]/60 hover:text-white transition-all shadow-md shadow-black/50"
-              >
-                {station.type === "radio" ? (
-                  <Radio className="w-4 h-4 text-[#38bdf8]" />
-                ) : (
-                  <Tv className="w-4 h-4 text-purple-400" />
-                )}
-                <span>{station.name}</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full bg-white/5 border font-mono ${station.color}`}>
-                  {station.badge}
-                </span>
-              </div>
-            ))}
-          </Marquee>
-
-          <Marquee reverse pauseOnHover className="[--duration:36s]">
-            {[
-              { name: "MTN Mobile Money", type: "telco", icon: "💳", color: "text-yellow-400 border-yellow-500/30" },
-              { name: "Safaricom M-Pesa", type: "telco", icon: "📱", color: "text-emerald-400 border-emerald-500/30" },
-              { name: "Airtel Money", type: "telco", icon: "💳", color: "text-red-400 border-red-500/30" },
-              { name: "vMix Playout Engine", type: "playout", icon: "⚡", color: "text-blue-400 border-blue-500/30" },
-              { name: "NewTek TriCaster", type: "playout", icon: "⚡", color: "text-blue-400 border-blue-500/30" },
-              { name: "CasparCG Graphics", type: "playout", icon: "⚡", color: "text-blue-400 border-blue-500/30" },
-              { name: "OBS Studio Playout", type: "playout", icon: "⚡", color: "text-blue-400 border-blue-500/30" },
-              { name: "Orange Money", type: "telco", icon: "💳", color: "text-orange-400 border-orange-500/30" },
-              { name: "Agora HD Studio Audio", type: "audio", icon: "🎙️", color: "text-cyan-400 border-cyan-500/30" },
-            ].map((partner, i) => (
-              <div
-                key={i}
-                className="px-5 py-2.5 rounded-2xl bg-[#090f1d] border border-white/10 text-slate-300 font-semibold text-xs sm:text-sm flex items-center gap-2 hover:border-[#1e60f2] hover:text-white transition-all shadow-md shadow-black/50"
-              >
-                <span>{partner.icon}</span>
-                <span>{partner.name}</span>
-                <span className={`text-[10px] px-2 py-0.5 rounded-full bg-white/5 border font-mono ${partner.color}`}>
-                  Verified
-                </span>
-              </div>
-            ))}
-          </Marquee>
-        </div>
-      </section>
-
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 3. THE 4 BROADCAST SCENARIOS (Interactive Showcase with Live Previews)  */}
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      <section id="solutions" className="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/15 border border-[#1e60f2]/30 inline-block mb-3">
-            Multi-Purpose Platform
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Built for Every Broadcast Scenario
-          </h2>
-          <p className="mt-4 text-slate-400 text-sm sm:text-base leading-relaxed">
-            Whether you run a national radio frequency, a 24-hour TV channel, or
-            a digital brand community, StudioPass transforms passive audiences
-            into loyal, paying superfans.
-          </p>
-        </div>
-
-        {/* Hover Effect Component with Rich Visual Previews */}
-        <HoverEffect items={scenarioItems} />
-      </section>
-
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 4. PLATFORM BENTO GRID (Core Technical Features & Live APIs)           */}
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      <section id="features" className="py-20 bg-[#060a14] border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section id="features" className="pt-20 sm:pt-28 pb-6 sm:pb-8 bg-[#f8faff] relative">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/15 border border-[#1e60f2]/30 inline-block mb-3">
-              Platform Architecture
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#1e60f2] px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 inline-block mb-3.5">
+              One Platform &bull; All Roles
             </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Enterprise Grade Broadcasting Engine
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Real Engagement. Built for Everyone.
             </h2>
-            <p className="mt-4 text-slate-400 text-sm sm:text-base">
-              Everything media houses need to moderate, broadcast, and monetize
-              at scale with sub-second performance.
+            <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
+              Whether you&apos;re a fan, an artist, a radio or TV station, or a forward-thinking brand —
+              StudioPass delivers tailored tools for meaningful interaction.
             </p>
           </div>
 
-          <BentoGrid>
-            {/* 1. Live Studio Moderation Queue (Large) */}
-            <BentoCard
-              className="md:col-span-2"
-              title="Real-Time Moderation Console"
-              badge="WebSockets 60fps"
-              icon={<Radio className="w-5 h-5" />}
-              description="Dedicated control room workflow. Incoming audience statements, song requests, and calls filter by active show schedule with instant canned quick replies."
-              header={
-                <div className="w-full h-full p-4 bg-[#0a1120] flex flex-col justify-between text-xs">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/10">
-                    <div className="flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-                      <span className="font-semibold text-slate-300">Live Show Queue (WebSockets Active)</span>
-                    </div>
-                    <span className="text-emerald-400 font-mono text-[10px]">0.08s Latency</span>
-                  </div>
-                  <div className="space-y-2 py-2">
-                    <div className="p-2.5 rounded-lg bg-white/5 flex items-center justify-between text-slate-200 border border-white/5">
-                      <div className="min-w-0 pr-2">
-                        <span className="font-bold text-white">Brian K. (Nairobi): </span>
-                        <span className="text-slate-300">&quot;Playing the hottest mixes!&quot;</span>
-                      </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold shrink-0 border border-emerald-500/30">
-                        Approved ✓
-                      </span>
-                    </div>
-                    <div className="p-2.5 rounded-lg bg-white/5 flex items-center justify-between text-slate-200 border border-white/5">
-                      <div className="min-w-0 pr-2">
-                        <span className="font-bold text-white">Sarah W. (Mombasa): </span>
-                        <span className="text-slate-300">&quot;Can I vote for Track #2?&quot;</span>
-                      </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-[#1e60f2]/30 text-[#38bdf8] font-bold shrink-0 border border-[#1e60f2]/40">
-                        In Review ⚡
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1 border-t border-white/5">
-                    <span className="flex items-center gap-1.5 text-slate-300">
-                      <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                      Profanity Shield Active
-                    </span>
-                    <span className="text-[#38bdf8] font-semibold">Auto-Archiving ON</span>
-                  </div>
-                </div>
-              }
-            />
-
-            {/* 2. HD Studio Calling */}
-            <BentoCard
-              title="HD Studio Voice Calling"
-              badge="Agora RTC"
-              icon={<PhoneCall className="w-5 h-5" />}
-              description="Listeners dial in directly through the mobile app. Presenters manage live caller queues with zero telephone lines or hardware patchbays."
-              header={
-                <div className="w-full h-full p-4 bg-[#0a1120] flex flex-col items-center justify-center text-center space-y-3">
-                  <div className="h-12 w-12 rounded-full bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                    <PhoneCall className="w-6 h-6 animate-pulse" />
-                  </div>
-                  <div className="text-xs text-slate-200 font-semibold">
-                    <span>Caller On-Air: </span>
-                    <span className="text-emerald-400 font-mono">+254 712***89</span>
-                  </div>
-                  <AudioVisualizer barCount={16} color="#10b981" />
-                </div>
-              }
-            />
-
-            {/* 3. TV Playout API with Interactive Copy */}
-            <BentoCard
-              title="TV Playout & Ticker API"
-              badge="vMix & TriCaster"
-              icon={<Tv className="w-5 h-5" />}
-              description="Instant JSON/XML/HTML overlay outputs for TV control rooms. Approved comments stream directly into character generators and lower-third graphics."
-              header={
-                <div className="w-full h-full p-3.5 bg-[#070d18] rounded-xl flex flex-col justify-between font-mono text-[11px] text-slate-300 relative border border-white/10 shadow-inner">
-                  <div className="flex items-center justify-between pb-1.5 border-b border-white/10 text-[10px]">
-                    <span className="text-[#38bdf8]">GET /api/v1/station/ticker</span>
-                    <button
-                      onClick={handleCopyApi}
-                      className="flex items-center gap-1 px-2 py-0.5 rounded bg-white/10 hover:bg-white/20 text-slate-300 text-[9px] transition-colors"
-                    >
-                      {copiedApi ? (
-                        <>
-                          <Check className="w-3 h-3 text-emerald-400" />
-                          <span className="text-emerald-400">Copied</span>
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3 h-3" />
-                          <span>Copy</span>
-                        </>
-                      )}
-                    </button>
-                  </div>
-                  <div className="py-1 text-[10px] leading-relaxed">
-                    <div className="text-[#38bdf8]">{"{"}</div>
-                    <div className="pl-3 text-slate-300">
-                      <span className="text-cyan-300">&quot;status&quot;:</span> <span className="text-emerald-400">&quot;sent_to_output&quot;,</span>
-                    </div>
-                    <div className="pl-3 text-slate-300">
-                      <span className="text-cyan-300">&quot;author&quot;:</span> <span className="text-amber-300">&quot;David M.&quot;,</span>
-                    </div>
-                    <div className="pl-3 text-slate-300">
-                      <span className="text-cyan-300">&quot;message&quot;:</span> <span className="text-slate-200">&quot;Watching live from Kampala!&quot;</span>
-                    </div>
-                    <div className="text-[#38bdf8]">{"}"}</div>
-                  </div>
-                  <div className="flex items-center justify-between text-[9px] text-emerald-400 pt-1 border-t border-white/5">
-                    <span>● Status: 200 OK</span>
-                    <span>14ms Latency</span>
-                  </div>
-                </div>
-              }
-            />
-
-            {/* 4. Automated Mobile Money Payouts */}
-            <BentoCard
-              className="md:col-span-2"
-              title="Automated Mobile Money Disbursements"
-              badge="MTN, Airtel & M-Pesa"
-              icon={<Wallet className="w-5 h-5" />}
-              description="Reward audience participation seamlessly. Winners of live station quizzes, fastest-finger contests, and brand challenges receive real cash directly to their mobile money wallets."
-              header={
-                <div className="w-full h-full p-4 bg-[#0a1120] flex flex-col justify-between text-xs">
-                  <div className="flex items-center justify-between pb-2 border-b border-white/10">
-                    <span className="font-semibold text-slate-300">Challenge Prize Engine</span>
-                    <span className="text-emerald-400 font-bold flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 fill-emerald-400" />
-                      Instant Payout
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 py-1">
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-slate-400">Winner (Trivia Quiz)</span>
-                        <span className="text-amber-400 font-bold">1st Place</span>
-                      </div>
-                      <div className="font-bold text-white">Mary N. (Uganda)</div>
-                      <div className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3" />
-                        UGX 50,000 Disbursed via MTN
-                      </div>
-                    </div>
-                    <div className="p-3 rounded-xl bg-white/5 border border-white/5 space-y-1">
-                      <div className="flex items-center justify-between text-[10px]">
-                        <span className="text-slate-400">Fastest Answer Challenge</span>
-                        <span className="text-amber-400 font-bold">0.8s Record</span>
-                      </div>
-                      <div className="font-bold text-white">James K. (Kenya)</div>
-                      <div className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3" />
-                        KES 2,500 Disbursed via M-Pesa
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              }
-            />
-          </BentoGrid>
+          {/* Animated Stacking Cards */}
+          <StackingCards items={audienceItems} />
         </div>
       </section>
 
       {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 5. INTERACTIVE LIVE SIMULATOR: FROM FAN APP TO TV TICKER                */}
+      {/* HOW IT WORKS + BROADCASTER CONSOLE SHOWCASE                           */}
       {/* ────────────────────────────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-14">
-          <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/15 border border-[#1e60f2]/30 inline-block mb-3">
-            Interactive Product Demo
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            See It In Action
-          </h2>
-          <p className="mt-3 text-slate-400 text-sm sm:text-base">
-            Type a message below (or tap a quick preset) and test how StudioPass
-            delivers audience comments from a fan&apos;s phone directly onto a live TV broadcast screen.
-          </p>
-        </div>
+      <section id="about" className="pt-14 sm:pt-18 pb-24 sm:pb-32 bg-white overflow-hidden">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#1e60f2] px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 inline-block mb-3.5">
+              How It Works
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              From Fans to Airwaves.{" "}
+              <span className="text-[#1e60f2]">It&apos;s That Simple.</span>
+            </h2>
+            <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+              StudioPass makes it easy for fans to connect with their favourite
+              stations, presenters, and brands in just a few taps. Real people. Real messages. Real impact.
+            </p>
+          </div>
 
-        <div className="p-6 sm:p-10 rounded-3xl bg-[#0c1424] border border-white/10 shadow-2xl relative overflow-hidden">
-          {/* Animated Connecting Beam Visualizer */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center relative z-10">
-            {/* Left Box: Simulated Listener Smartphone Input */}
-            <div className="space-y-4 p-5 sm:p-6 rounded-2xl bg-[#080d19] border border-white/10 shadow-xl">
-              <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                <div className="flex items-center gap-2">
-                  <Smartphone className="w-5 h-5 text-[#38bdf8]" />
-                  <span className="font-bold text-white text-sm">
-                    Listener Smartphone App
-                  </span>
-                </div>
-                <span className="text-xs text-slate-400">Station: Capital TV</span>
-              </div>
-
-              {/* Quick Preset Shoutouts */}
-              <div>
-                <label className="block text-[11px] font-semibold text-slate-400 mb-1.5">
-                  Tap a quick shoutout template:
-                </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {presetShoutouts.map((preset, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => {
-                        setActivePreset(idx);
-                        handleSimSend(preset);
-                      }}
-                      className={`text-[11px] px-2.5 py-1 rounded-lg border transition-all text-left truncate max-w-full ${
-                        activePreset === idx
-                          ? "bg-[#00B2FF]/20 border-[#00B2FF] text-[#38bdf8] font-semibold"
-                          : "bg-white/5 border-white/10 text-slate-300 hover:text-white hover:bg-white/10"
-                      }`}
-                    >
-                      {preset}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-400 mb-1.5">
-                  Or customize your message:
-                </label>
-                <textarea
-                  rows={3}
-                  value={simMessage}
-                  onChange={(e) => {
-                    setSimMessage(e.target.value);
-                    setActivePreset(null);
-                  }}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 p-3 text-sm text-white focus:outline-none focus:border-[#38bdf8] resize-none"
-                  placeholder="Type a message to send to the TV studio..."
-                />
-              </div>
-
-              <div className="flex items-center justify-between pt-1">
-                <span className="text-xs text-slate-400 flex items-center gap-1">
-                  <Wallet className="w-3.5 h-3.5 text-[#38bdf8]" />
-                  Cost: 1 Message Credit
-                </span>
-                <Button
-                  onClick={() => handleSimSend()}
-                  variant="glow"
-                  size="sm"
-                  disabled={simStep === "sending"}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+            {/* Left 4 Steps (4 cols) */}
+            <div className="lg:col-span-4 space-y-6">
+              {[
+                {
+                  step: 1,
+                  title: "Fan opens the app",
+                  desc: "Fans download StudioPass and choose their favourite station, show or brand channel.",
+                },
+                {
+                  step: 2,
+                  title: "Sends request or shoutout",
+                  desc: "They submit a song request, shoutout, question or message in seconds.",
+                },
+                {
+                  step: 3,
+                  title: "Presenter receives it live",
+                  desc: "Requests appear in real-time on the StudioPass dashboard for broadcasters.",
+                },
+                {
+                  step: 4,
+                  title: "Reaches on-air airwaves",
+                  desc: "Selected messages go live on-air, on social, or through brand activations.",
+                },
+              ].map((item, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-start gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/70 hover:border-[#1e60f2]/40 hover:bg-blue-50/30 transition-all"
                 >
-                  {simStep === "sending" ? "Transmitting..." : "Send to Live Studio"}
-                  <Send className="w-3.5 h-3.5 ml-1" />
-                </Button>
+                  <div className="h-10 w-10 rounded-xl bg-[#1e60f2] text-white flex items-center justify-center font-extrabold text-sm shrink-0 shadow-md shadow-[#1e60f2]/20">
+                    {item.step}
+                  </div>
+                  <div>
+                    <h4 className="text-base font-bold text-slate-900">{item.title}</h4>
+                    <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+
+              <div className="pt-2 text-center sm:text-left">
+                <span className="text-[#1e60f2] font-bold text-xs tracking-wider uppercase bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
+                  &ldquo;Real People. Real Airwaves.&rdquo;
+                </span>
               </div>
             </div>
 
-            {/* Right Box: Simulated TV Broadcast Playout Screen */}
-            <div className="space-y-3">
-              <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-950 border border-white/15 shadow-2xl flex flex-col justify-between p-4">
-                {/* TV Broadcast Watermark & Live Bug */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <span className="h-3 w-3 rounded-full bg-red-500 animate-ping" />
-                    <span className="px-2 py-0.5 rounded bg-red-600 font-extrabold text-white text-[11px] tracking-wider">
-                      LIVE
-                    </span>
-                    <span className="text-xs font-bold text-slate-300">
-                      Capital Television News & Music
-                    </span>
+            {/* Middle: Dashboard Laptop Preview (5 cols) */}
+            <div className="lg:col-span-5 relative flex justify-center">
+              <div className="w-full relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-white group">
+                <div className="relative aspect-4/3 w-full">
+                  <Image
+                    src="/images/laptop-dashboard.jpg"
+                    alt="StudioPass Broadcaster Console Dashboard"
+                    fill
+                    className="object-cover object-center group-hover:scale-102 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <p className="text-xs font-bold uppercase tracking-wider text-blue-200">
+                      Broadcaster Studio Console
+                    </p>
+                    <p className="text-sm font-bold">
+                      Urban FM &bull; Live Listener Requests &amp; Analytics
+                    </p>
                   </div>
-                  <div className="text-xs text-slate-400 font-mono">1080p 60fps HD</div>
                 </div>
+              </div>
+              <div className="hidden sm:block absolute -bottom-4 right-4 text-[#1e60f2] text-xs font-bold rotate-3 bg-white px-3 py-1 rounded-full shadow-md border border-blue-100">
+                Your Voice On Air!
+              </div>
+            </div>
 
-                {/* TV Center Graphic Visual */}
-                <div className="text-center py-6">
-                  <div className="inline-flex items-center justify-center p-3.5 rounded-full bg-white/5 border border-white/10 mb-2 shadow-inner">
-                    <Tv className="w-8 h-8 text-[#38bdf8]" />
+            {/* Right: Why Broadcasters & Brands Love It (3 cols) */}
+            <div className="lg:col-span-3 space-y-4">
+              <div className="mb-2">
+                <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400">
+                  Why StudioPass
+                </span>
+                <h3 className="text-xl font-extrabold text-slate-900 mt-0.5">
+                  Why Broadcasters &amp; Brands Love It
+                </h3>
+                <p className="text-xs text-[#1e60f2] font-semibold italic mt-0.5">
+                  Same Fans. New Possibilities.
+                </p>
+              </div>
+
+              {[
+                {
+                  title: "Deeper Audience Engagement",
+                  desc: "Turn passive listeners into active participants with real-time interaction.",
+                  icon: <Users className="w-4 h-4 text-[#1e60f2]" />,
+                },
+                {
+                  title: "More Value for Brands",
+                  desc: "Create meaningful, measurable connections through authentic fan engagement.",
+                  icon: <BarChart3 className="w-4 h-4 text-[#1e60f2]" />,
+                },
+                {
+                  title: "Easy to Use, Powerful Results",
+                  desc: "A simple, all-in-one platform designed for broadcasters, brands and fans.",
+                  icon: <Zap className="w-4 h-4 text-[#1e60f2]" />,
+                },
+                {
+                  title: "Builds Stronger Communities",
+                  desc: "Celebrate your audience. Amplify real voices. Keep fans coming back.",
+                  icon: <Heart className="w-4 h-4 text-[#1e60f2]" />,
+                },
+              ].map((benefit, bIdx) => (
+                <div
+                  key={bIdx}
+                  className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs hover:border-[#1e60f2]/40 transition-all"
+                >
+                  <div className="flex items-center gap-2 mb-1.5">
+                    {benefit.icon}
+                    <h5 className="text-xs font-bold text-slate-900">{benefit.title}</h5>
                   </div>
-                  <p className="text-xs text-slate-400">
-                    Live Broadcast Playout • Auto Moderation Active
+                  <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed">
+                    {benefit.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      {/* GRAPHIC CAMPAIGNS CAROUSEL                                            */}
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      <section className="py-24 sm:py-32 lg:py-36 bg-[#f8faff]">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
+          <CampaignCarousel campaigns={campaigns} />
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      {/* APP DOWNLOAD SECTION                                                  */}
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      <section id="download" className="py-24 sm:py-32 lg:py-36 bg-white relative overflow-hidden">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Left Content (6 cols) */}
+            <div className="lg:col-span-6 space-y-6">
+              <span className="text-xs font-extrabold uppercase tracking-wider text-[#1e60f2] px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 inline-block">
+                Get Started Today
+              </span>
+              <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-tight">
+                Download StudioPass in Seconds
+              </h2>
+              <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl">
+                Your favorite radio and TV stations. Now closer than ever.
+                Send messages, request songs, call live on-air, and stay connected
+                with the broadcast shows you love.
+              </p>
+
+              {/* 3 feature badges */}
+              <div className="flex flex-wrap items-center gap-6 text-slate-600 text-xs sm:text-sm font-semibold pt-1">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-[#1e60f2]" />
+                  <span>Fast &amp; Easy</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Heart className="w-4 h-4 text-[#1e60f2]" />
+                  <span>All Your Favs</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-[#1e60f2]" />
+                  <span>Always Free</span>
+                </div>
+              </div>
+
+              {/* Store buttons */}
+              <div className="flex flex-wrap items-center gap-4 pt-4">
+                <a
+                  href="#download"
+                  className="inline-flex items-center gap-3.5 px-5 py-3 rounded-2xl bg-slate-950 hover:bg-slate-900 text-white border border-slate-800 shadow-lg shadow-slate-950/10 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 group"
+                >
+                  <svg className="w-7 h-7 shrink-0 transition-transform group-hover:scale-105" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92z"/>
+                    <path fill="#34A853" d="M14.5 11.29l2.302-2.302-10.938-6.33 8.636 8.632z"/>
+                    <path fill="#EA4335" d="M5.864 21.342l8.635-8.635 2.302 2.302-10.937 6.333z"/>
+                    <path fill="#FBBC05" d="M19.998 11.137l-2.302-1.33-2.535 2.193 2.535 2.193 2.302-1.33a1 1 0 000-1.726z"/>
+                  </svg>
+                  <div className="text-left">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 leading-none">Get it on</p>
+                    <p className="text-base font-extrabold tracking-tight text-white leading-tight mt-0.5">Google Play</p>
+                  </div>
+                </a>
+
+                <a
+                  href="#download"
+                  className="inline-flex items-center gap-3.5 px-5 py-3 rounded-2xl bg-slate-950 hover:bg-slate-900 text-white border border-slate-800 shadow-lg shadow-slate-950/10 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 group"
+                >
+                  <svg className="w-7 h-7 shrink-0 text-white transition-transform group-hover:scale-105" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                  </svg>
+                  <div className="text-left">
+                    <p className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 leading-none">Download on the</p>
+                    <p className="text-base font-extrabold tracking-tight text-white leading-tight mt-0.5">App Store</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            {/* Middle & Right: QR Code & Dual Phone Mockup (6 cols) */}
+            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
+              {/* QR Code Card */}
+              <div className="p-7 rounded-3xl bg-white border border-slate-200 shadow-xl text-center space-y-4 flex flex-col items-center justify-center">
+                <div className="p-3.5 bg-slate-50 rounded-2xl inline-block border border-slate-100">
+                  <div className="h-44 w-44 bg-white rounded-xl flex items-center justify-center relative overflow-hidden p-2">
+                    <svg viewBox="0 0 100 100" className="w-full h-full text-slate-900 fill-current" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="5" y="5" width="28" height="28" fill="#1e60f2" />
+                      <rect x="9" y="9" width="20" height="20" fill="white" />
+                      <rect x="13" y="13" width="12" height="12" fill="#1e60f2" />
+                      <rect x="67" y="5" width="28" height="28" fill="#1e60f2" />
+                      <rect x="71" y="9" width="20" height="20" fill="white" />
+                      <rect x="75" y="13" width="12" height="12" fill="#1e60f2" />
+                      <rect x="5" y="67" width="28" height="28" fill="#1e60f2" />
+                      <rect x="9" y="71" width="20" height="20" fill="white" />
+                      <rect x="13" y="75" width="12" height="12" fill="#1e60f2" />
+                      <rect x="38" y="10" width="6" height="6" fill="#1e60f2" />
+                      <rect x="48" y="10" width="6" height="6" fill="#1e60f2" />
+                      <rect x="58" y="10" width="6" height="6" fill="#1e60f2" />
+                      <rect x="38" y="20" width="6" height="6" fill="#1e60f2" />
+                      <rect x="48" y="25" width="6" height="6" fill="#1e60f2" />
+                      <rect x="10" y="38" width="6" height="6" fill="#1e60f2" />
+                      <rect x="20" y="48" width="6" height="6" fill="#1e60f2" />
+                      <rect x="38" y="38" width="8" height="8" fill="#1e60f2" />
+                      <rect x="54" y="38" width="8" height="8" fill="#1e60f2" />
+                      <rect x="38" y="54" width="8" height="8" fill="#1e60f2" />
+                      <rect x="54" y="54" width="8" height="8" fill="#1e60f2" />
+                      <rect x="70" y="38" width="6" height="6" fill="#1e60f2" />
+                      <rect x="80" y="48" width="6" height="6" fill="#1e60f2" />
+                      <rect x="38" y="70" width="6" height="6" fill="#1e60f2" />
+                      <rect x="48" y="75" width="6" height="6" fill="#1e60f2" />
+                      <rect x="70" y="70" width="6" height="6" fill="#1e60f2" />
+                      <rect x="80" y="75" width="6" height="6" fill="#1e60f2" />
+                    </svg>
+                    <div className="absolute inset-0 m-auto h-9 w-9 rounded-lg bg-[#1e60f2] flex items-center justify-center font-bold text-white text-xs shadow-md border-2 border-white">
+                      SP
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <h4 className="text-base font-extrabold text-slate-900">Scan to Download</h4>
+                  <p className="text-xs text-slate-500 max-w-[200px] mx-auto leading-relaxed">
+                    Scan with your camera to download StudioPass instantly.
                   </p>
                 </div>
 
-                {/* Lower Third Ticker Overlay */}
-                <div className="relative rounded-xl bg-[#080d19]/90 border border-[#38bdf8]/40 p-3 shadow-xl backdrop-blur-md">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-2">
-                      <span className="px-1.5 py-0.5 rounded bg-[#1e60f2] text-[10px] font-bold text-white uppercase">
-                        Audience Ticker
-                      </span>
-                      <span className="text-xs font-bold text-white">
-                        Fan Shoutout (via StudioPass):
-                      </span>
-                    </div>
-                    {simStep === "approved" && (
-                      <span className="text-[10px] text-emerald-400 font-mono">● On-Air</span>
-                    )}
-                  </div>
-
-                  {simStep === "sending" ? (
-                    <div className="text-xs text-amber-400 animate-pulse flex items-center gap-2">
-                      <span className="h-2 w-2 rounded-full bg-amber-400 animate-ping" />
-                      Moderating message in station console (0.4s)...
-                    </div>
-                  ) : (
-                    <motion.div
-                      key={simMessage}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-xs sm:text-sm text-slate-100 font-medium truncate"
-                    >
-                      &quot;{simMessage}&quot;
-                    </motion.div>
-                  )}
-                </div>
-              </div>
-              <p className="text-center text-xs text-slate-400">
-                Connected via StudioPass Low-Latency Broadcast Output API Key
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 6. COUNTRIES WE OPERATE IN (With Interactive Regional Filter)           */}
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      <section id="countries" className="py-20 bg-[#060a14] border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/15 border border-[#1e60f2]/30 inline-block mb-3">
-              Regional Coverage
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Countries We Operate In
-            </h2>
-            <p className="mt-3 text-slate-400 text-sm sm:text-base">
-              Integrated with local mobile money networks and telecommunication
-              providers across Africa.
-            </p>
-          </div>
-
-          {/* Regional Filter Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-            {[
-              { id: "all", label: "All Operating Markets" },
-              { id: "east", label: "East Africa (KE, UG, TZ)" },
-              { id: "west", label: "West Africa (NG, GH)" },
-              { id: "other", label: "Southern & North Africa (ZA, EG)" },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setCountryFilter(tab.id as any)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all ${
-                  countryFilter === tab.id
-                    ? "bg-[#00B2FF] text-white shadow-lg shadow-[#00B2FF]/25"
-                    : "bg-white/5 border border-white/10 text-slate-400 hover:text-white hover:bg-white/10"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredCountries.map((c, i) => (
-              <div
-                key={i}
-                className="p-6 rounded-2xl bg-[#0c1424] border border-white/10 hover:border-[#38bdf8]/60 transition-all space-y-3 group shadow-xl shadow-black/40 hover:shadow-[#1e60f2]/10"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-4xl">{c.flag}</span>
-                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
-                    {c.phoneCode}
-                  </span>
-                </div>
-                <h3 className="text-lg font-bold text-white group-hover:text-[#38bdf8] transition-colors">
-                  {c.name}
-                </h3>
-                <div className="space-y-1.5 text-xs text-slate-400">
-                  <div>
-                    <strong className="text-slate-300">Currency:</strong> {c.currency}
-                  </div>
-                  <div>
-                    <strong className="text-slate-300">Billing Channels:</strong> {c.telcos}
-                  </div>
-                </div>
-                <div className="pt-2 flex items-center justify-between">
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
-                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    {c.status}
+                <div className="pt-1">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1e60f2] bg-blue-50 border border-blue-200/80 px-3.5 py-1.5 rounded-full shadow-2xs">
+                    <QrCode className="w-3.5 h-3.5 text-[#1e60f2]" />
+                    Scan with phone camera
                   </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 7. APP DOWNLOAD SECTION (With Authentic QR & Official Store Badges)     */}
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      <section id="download" className="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-[#111a30] to-[#080d1a] border border-white/15 shadow-2xl relative overflow-hidden">
-          {/* Ambient Lighting */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-[#1e60f2]/15 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-            <div className="lg:col-span-7 space-y-6">
-              <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/20 border border-[#1e60f2]/30 inline-block">
-                For Listeners & Viewers
-              </span>
-
-              <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                Connect Directly with Your Favorite Shows.
-              </h2>
-
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-                Download the StudioPass mobile app on Android and iOS. Send live
-                shoutouts to on-air presenters, call into radio and TV studios
-                with HD audio, join live polls, and win real cash rewards.
-              </p>
-
-              {/* Download Action Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                {/* Direct APK Download Button */}
-                <a
-                  href="/studiopass-release.apk"
-                  download
-                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-[#1e60f2] hover:bg-[#184ebd] text-white font-bold text-sm shadow-xl shadow-[#1e60f2]/30 transition-all hover:scale-105 active:scale-95 border border-cyan-400/30"
-                >
-                  <Download className="w-5 h-5" />
-                  Download APK for Android
-                </a>
-
-                {/* App Store / Google Play Badge Pill */}
-                <div className="px-4 py-3 rounded-2xl bg-white/5 border border-white/10 text-xs text-slate-300 flex items-center gap-2 shadow-inner">
-                  <Smartphone className="w-4 h-4 text-[#38bdf8]" />
-                  <span>Google Play & App Store Available</span>
+              {/* Dual Phone Mockups Card */}
+              <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-gradient-to-b from-blue-50/80 to-white p-3 group">
+                <div className="relative aspect-4/3 sm:aspect-square w-full rounded-2xl overflow-hidden">
+                  <Image
+                    src="/images/dual-phones-mockup.jpg"
+                    alt="StudioPass Dual Phone Mockup"
+                    fill
+                    className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                  />
                 </div>
-              </div>
-
-              {/* Verified Trust Badges */}
-              <div className="pt-4 border-t border-white/10 flex flex-wrap items-center gap-6 text-xs text-slate-400">
-                <span className="flex items-center gap-1.5 text-slate-300">
-                  <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                  4.9/5 Broadcaster Rating
-                </span>
-                <span className="flex items-center gap-1.5 text-slate-300">
-                  <Shield className="w-3.5 h-3.5 text-emerald-400" />
-                  Verified Secure APK
-                </span>
-                <span>✓ Zero Passwords (Instant OTP)</span>
-              </div>
-            </div>
-
-            {/* High-Resolution QR Code Frame */}
-            <div className="lg:col-span-5 flex flex-col items-center justify-center p-6 sm:p-8 rounded-2xl bg-[#060912] border border-white/10 text-center space-y-4 shadow-2xl">
-              <div className="p-4 bg-white rounded-2xl shadow-xl inline-block relative group">
-                {/* High Density QR Code Matrix */}
-                <div className="h-40 w-40 bg-slate-950 rounded-lg flex items-center justify-center p-2 relative overflow-hidden">
-                  <svg
-                    viewBox="0 0 100 100"
-                    className="w-full h-full text-white fill-current"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    {/* Corner Position Boxes */}
-                    <rect x="5" y="5" width="28" height="28" fill="white" />
-                    <rect x="9" y="9" width="20" height="20" fill="black" />
-                    <rect x="13" y="13" width="12" height="12" fill="white" />
-
-                    <rect x="67" y="5" width="28" height="28" fill="white" />
-                    <rect x="71" y="9" width="20" height="20" fill="black" />
-                    <rect x="75" y="13" width="12" height="12" fill="white" />
-
-                    <rect x="5" y="67" width="28" height="28" fill="white" />
-                    <rect x="9" y="71" width="20" height="20" fill="black" />
-                    <rect x="13" y="75" width="12" height="12" fill="white" />
-
-                    {/* QR Data Cells */}
-                    <rect x="38" y="10" width="6" height="6" fill="white" />
-                    <rect x="48" y="10" width="6" height="6" fill="white" />
-                    <rect x="58" y="10" width="6" height="6" fill="white" />
-                    <rect x="38" y="20" width="6" height="6" fill="white" />
-                    <rect x="48" y="25" width="6" height="6" fill="white" />
-                    <rect x="58" y="20" width="6" height="6" fill="white" />
-
-                    <rect x="10" y="38" width="6" height="6" fill="white" />
-                    <rect x="20" y="48" width="6" height="6" fill="white" />
-                    <rect x="25" y="38" width="6" height="6" fill="white" />
-                    <rect x="10" y="58" width="6" height="6" fill="white" />
-
-                    <rect x="38" y="38" width="8" height="8" fill="white" />
-                    <rect x="54" y="38" width="8" height="8" fill="white" />
-                    <rect x="38" y="54" width="8" height="8" fill="white" />
-                    <rect x="54" y="54" width="8" height="8" fill="white" />
-
-                    <rect x="70" y="38" width="6" height="6" fill="white" />
-                    <rect x="80" y="48" width="6" height="6" fill="white" />
-                    <rect x="85" y="38" width="6" height="6" fill="white" />
-                    <rect x="70" y="58" width="6" height="6" fill="white" />
-
-                    <rect x="38" y="70" width="6" height="6" fill="white" />
-                    <rect x="48" y="75" width="6" height="6" fill="white" />
-                    <rect x="58" y="70" width="6" height="6" fill="white" />
-                    <rect x="38" y="85" width="6" height="6" fill="white" />
-                    <rect x="58" y="85" width="6" height="6" fill="white" />
-
-                    <rect x="70" y="70" width="6" height="6" fill="white" />
-                    <rect x="80" y="75" width="6" height="6" fill="white" />
-                    <rect x="70" y="85" width="6" height="6" fill="white" />
-                    <rect x="85" y="85" width="6" height="6" fill="white" />
-                  </svg>
-
-                  {/* Center Emblem */}
-                  <div className="absolute inset-0 m-auto h-8 w-8 rounded-md bg-[#00B2FF] flex items-center justify-center font-bold text-white text-[10px] shadow-md">
-                    SP
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <h4 className="text-sm font-bold text-white">
-                  Scan to Install on Smartphone
-                </h4>
-                <p className="text-xs text-slate-400 max-w-xs">
-                  Scan this QR code with your mobile camera to instantly initiate
-                  the APK download.
+                <p className="text-center text-xs font-semibold text-[#1e60f2] mt-2 italic">
+                  Radio. TV. Everywhere with you.
                 </p>
               </div>
             </div>
@@ -1494,37 +764,167 @@ Content-Type: application/json
       </section>
 
       {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 8. BROADCASTER FAQ ACCORDION (With Categorization Tabs)                 */}
+      {/* TESTIMONIALS SECTION                                                  */}
       {/* ────────────────────────────────────────────────────────────────────── */}
-      <section id="faq" className="py-20 bg-[#060a14] border-t border-white/10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
-            <span className="text-xs font-bold uppercase tracking-wider text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/15 border border-[#1e60f2]/30 inline-block mb-3">
-              Help & Answers
+      <section className="py-24 sm:py-32 lg:py-36 bg-[#f8faff]">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#1e60f2] px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 inline-block mb-3.5">
+              What Our Community Says
             </span>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Frequently Asked Questions
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Trusted by Thousands of Listeners
             </h2>
-            <p className="mt-3 text-slate-400 text-sm sm:text-base">
-              Clear answers for media station executives, program directors, and listeners.
-            </p>
           </div>
 
-          {/* FAQ Category Switcher */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
+            {[
+              {
+                name: "Nabukunya A.",
+                location: "Kampala, Uganda",
+                quote: "StudioPass has made it so easy to keep up with my favorite radio shows. Love it!",
+                avatar: "/images/testimonials/nabukunya.png",
+              },
+              {
+                name: "Daniel K.",
+                location: "Entebbe, Uganda",
+                quote: "All my radio and TV stations in one place. Super convenient and reliable.",
+                avatar: "/images/testimonials/daniel.png",
+              },
+              {
+                name: "Sharon M.",
+                location: "Jinja, Uganda",
+                quote: "Clean design, great content and it just works everywhere I go. Highly recommended!",
+                avatar: "/images/testimonials/sharon.png",
+              },
+            ].map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="p-9 rounded-3xl bg-white border border-slate-200/80 shadow-md hover:shadow-2xl hover:border-[#1e60f2]/30 transition-all space-y-6"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-[#1e60f2]/20 shrink-0 shadow-sm">
+                    <Image
+                      src={t.avatar}
+                      alt={t.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <h5 className="text-base font-bold text-slate-900">{t.name}</h5>
+                    <p className="text-xs font-semibold text-slate-400">{t.location}</p>
+                  </div>
+                </div>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+
+                <div className="flex items-center gap-1 pt-1">
+                  {[...Array(5)].map((_, j) => (
+                    <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Dots */}
+          <div className="flex items-center justify-center gap-2 mt-12">
+            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
+            <span className="h-2.5 w-9 rounded-full bg-[#1e60f2]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      {/* STAY IN THE LOOP (NEWSLETTER)                                         */}
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      <section className="py-20 sm:py-28 lg:py-32 bg-white">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
+          <div className="p-10 sm:p-16 lg:p-20 rounded-[32px] sm:rounded-[40px] bg-gradient-to-r from-blue-50/80 via-white to-sky-50/80 border border-blue-100/90 text-slate-900 relative overflow-hidden shadow-xl">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[#1e60f2]/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
+              <div className="lg:col-span-7 space-y-4">
+                <span className="text-xs font-extrabold uppercase tracking-widest text-[#1e60f2] px-3.5 py-1.5 rounded-full bg-blue-100/60 border border-blue-200/60 inline-block">
+                  Stay in the Loop
+                </span>
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+                  Get the latest updates from <span className="text-[#1e60f2]">StudioPass</span>
+                </h2>
+                <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl">
+                  New stations, features, and exclusive content — delivered to your inbox.
+                </p>
+              </div>
+
+              <div className="lg:col-span-5 space-y-3.5">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    alert("Thank you for subscribing to StudioPass updates!");
+                  }}
+                  className="flex flex-col sm:flex-row items-center gap-3"
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email address"
+                    className="w-full sm:flex-1 px-5 py-4 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e60f2] shadow-sm"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#1e60f2]/25 transition-all whitespace-nowrap cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    Subscribe
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </form>
+                <div className="flex items-center justify-between text-xs text-slate-500 font-medium px-1">
+                  <span>No spam. Just the good stuff.</span>
+                  <span className="text-[#1e60f2] font-semibold italic">Radio. TV. Everywhere with you.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      {/* FAQ SECTION                                                           */}
+      {/* ────────────────────────────────────────────────────────────────────── */}
+      <section id="faq" className="py-24 sm:py-32 lg:py-36 bg-[#f8faff]">
+        <div className="w-[92%] lg:w-[86%] max-w-[1000px] mx-auto">
+          <div className="text-center mb-14">
+            <span className="text-xs font-extrabold uppercase tracking-wider text-[#1e60f2] px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 inline-block mb-3.5">
+              Help &amp; Answers
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          {/* Filter Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
             {[
               { id: "all", label: "All Questions" },
-              { id: "station", label: "Radio & TV Station Setup" },
-              { id: "tv", label: "TV Playout & API" },
-              { id: "billing", label: "Mobile Money & Billing" },
+              { id: "listeners", label: "For Listeners" },
+              { id: "stations", label: "For Stations" },
+              { id: "general", label: "General" },
             ].map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setFaqFilter(cat.id as any)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-6 py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                   faqFilter === cat.id
-                    ? "bg-[#00B2FF] text-white shadow-md shadow-[#00B2FF]/20"
-                    : "bg-white/5 text-slate-400 hover:text-white border border-white/10"
+                    ? "bg-[#1e60f2] text-white shadow-md shadow-[#1e60f2]/25 scale-102"
+                    : "bg-white text-slate-600 hover:text-slate-900 border border-slate-200 hover:bg-slate-50"
                 }`}
               >
                 {cat.label}
@@ -1532,47 +932,49 @@ Content-Type: application/json
             ))}
           </div>
 
-          <div className="p-6 sm:p-8 rounded-3xl bg-[#0c1424] border border-white/10 shadow-xl">
+          <div className="p-7 sm:p-12 rounded-3xl bg-white border border-slate-200/80 shadow-md">
             <Accordion items={filteredFaq} />
           </div>
         </div>
       </section>
 
       {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* 9. HIGH-CONVERSION CTA BANNER                                          */}
+      {/* BECOME A PARTNER SECTION                                              */}
       {/* ────────────────────────────────────────────────────────────────────── */}
-      <section className="py-20 sm:py-28 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl p-8 sm:p-16 bg-gradient-to-r from-[#111e3b] via-[#0e172e] to-[#080d19] border border-[#38bdf8]/30 shadow-2xl text-center space-y-6 overflow-hidden">
-          <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#1e60f2]/20 rounded-full blur-3xl pointer-events-none" />
+      <section id="partner" className="py-24 sm:py-32 lg:py-36 bg-white">
+        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
+          <div className="relative rounded-3xl p-10 sm:p-16 lg:p-20 bg-gradient-to-r from-[#1e60f2] to-[#0ea5e9] text-center space-y-7 overflow-hidden shadow-2xl shadow-[#1e60f2]/25">
+            <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
-          <span className="text-xs font-bold uppercase tracking-widest text-[#38bdf8] px-3 py-1 rounded-full bg-[#1e60f2]/20 border border-[#1e60f2]/30 inline-block">
-            Ready to Broadcast?
-          </span>
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight max-w-3xl mx-auto relative z-10 leading-tight">
+              Grow Your Audience. Build Stronger Connections.
+            </h2>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight max-w-2xl mx-auto">
-            Bring Your Station into the Interactive Era.
-          </h2>
+            <p className="text-white/90 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed relative z-10 font-medium">
+              Join forward-thinking radio and television broadcasters, creators,
+              and brands transforming audience engagement across Africa with StudioPass.
+            </p>
 
-          <p className="text-slate-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            Join forward-thinking radio and television broadcasters transforming
-            audience engagement, loyalty, and on-air monetization today.
-          </p>
-
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button
-              variant="glow"
-              size="lg"
-              onClick={() => setOnboardOpen(true)}
-              className="w-full sm:w-auto"
-            >
-              Start Station Onboarding
-              <ArrowRight className="w-5 h-5 ml-1.5" />
-            </Button>
-            <Link href="/contact" className="w-full sm:w-auto">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto">
-                Talk to Sales & Support
+            <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => setOnboardOpen(true)}
+                className="w-full sm:w-auto bg-white text-[#1e60f2] hover:bg-slate-100 font-extrabold text-base px-8 py-6 rounded-2xl shadow-xl border-white cursor-pointer"
+              >
+                Become a Partner
+                <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-            </Link>
+              <Link href="/contact" className="w-full sm:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto border-2 border-white/60 text-white hover:bg-white/15 font-bold text-base px-8 py-6 rounded-2xl cursor-pointer"
+                >
+                  Talk to Our Team
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -1583,7 +985,7 @@ Content-Type: application/json
       {/* Dynamic Scroll to Top */}
       <ScrollToTop />
 
-      {/* Floating 1-Click WhatsApp Support Widget */}
+      {/* Floating WhatsApp Support Widget */}
       <WhatsAppFloat />
 
       {/* Onboard Application Modal */}
