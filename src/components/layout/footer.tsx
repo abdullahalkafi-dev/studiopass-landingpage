@@ -14,7 +14,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3">
               <div className="relative h-10 w-10">
                 <Image
-                  src={withBasePath("/logo.svg")}
+                  src={withBasePath("/logo-icon.svg")}
                   alt="StudioPass Logo"
                   fill
                   className="object-contain"
