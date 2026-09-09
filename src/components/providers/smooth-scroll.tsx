@@ -45,18 +45,32 @@ export function SmoothScrollProvider({
       const href = target.getAttribute("href");
       if (!href) return;
 
-      if (href.startsWith("/#") || href.startsWith("#")) {
-        const targetId = href.startsWith("/#") ? href.slice(1) : href;
-        if (targetId === "#" || targetId === "#top") {
-          e.preventDefault();
-          lenisInstance.scrollTo(0, { duration: 1.2 });
-          return;
-        }
+      const hashIndex = href.indexOf("#");
+      if (hashIndex !== -1) {
+        const pathPart = href.slice(0, hashIndex);
+        const isSamePage =
+          !pathPart ||
+          pathPart === "" ||
+          pathPart === "/" ||
+          pathPart === "/landing-page" ||
+          pathPart === "/landing-page/";
 
-        const element = document.querySelector(targetId);
-        if (element) {
-          e.preventDefault();
-          lenisInstance.scrollTo(element as HTMLElement, { offset: -80, duration: 1.2 });
+        if (isSamePage) {
+          const targetId = href.slice(hashIndex);
+          if (targetId === "#" || targetId === "#top") {
+            e.preventDefault();
+            lenisInstance.scrollTo(0, { duration: 1.2 });
+            return;
+          }
+
+          const element = document.querySelector(targetId);
+          if (element) {
+            e.preventDefault();
+            lenisInstance.scrollTo(element as HTMLElement, {
+              offset: -80,
+              duration: 1.2,
+            });
+          }
         }
       }
     };
