@@ -3,6 +3,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { withBasePath } from "@/lib/utils";
 
 export interface Campaign {
   id: string;
@@ -104,7 +105,7 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
           >
             <div className="relative rounded-3xl overflow-hidden aspect-4/3 bg-slate-100 border border-slate-200/90 shadow-lg group-hover:shadow-2xl group-hover:border-[#1e60f2]/40 transition-all duration-300">
               <Image
-                src={campaign.image}
+                src={withBasePath(campaign.image)}
                 alt={campaign.title}
                 fill
                 sizes="(max-width: 768px) 85vw, 360px"

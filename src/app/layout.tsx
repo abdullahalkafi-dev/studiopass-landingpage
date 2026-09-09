@@ -19,14 +19,14 @@ export const metadata: Metadata = {
   description:
     "StudioPass connects listeners and viewers directly with Radio Stations, TV Stations, Creators and Brands through messages, voice notes, song requests, live audio calls, polls, challenges and more.",
   icons: {
-    icon: "/logo.svg",
-    apple: "/logo.png",
+    icon: "/landing-page/logo.svg",
+    apple: "/landing-page/logo.png",
   },
   openGraph: {
     title: "StudioPass | One Platform. More Ways to Connect.",
     description:
       "StudioPass brings listeners, artists and brands closer to the radio and TV stations they love. Real people. Real conversations. A more connected media community.",
-    images: ["/logo.png"],
+    images: ["/landing-page/logo.png"],
   },
 };
 

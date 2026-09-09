@@ -5,6 +5,24 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+export const BASE_PATH = "/landing-page";
+
+export function withBasePath(path: string): string {
+  if (!path) return path;
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("data:")
+  ) {
+    return path;
+  }
+  const clean = path.startsWith("/") ? path : `/${path}`;
+  if (clean.startsWith(`${BASE_PATH}/`)) {
+    return clean;
+  }
+  return `${BASE_PATH}${clean}`;
+}
+
 export interface OperatingCountry {
   name: string;
   code: string;

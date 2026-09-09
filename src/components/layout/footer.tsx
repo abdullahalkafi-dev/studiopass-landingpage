@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Mail, Phone, MapPin, Clock, Heart } from "lucide-react";
+import { withBasePath } from "@/lib/utils";
 
 export function Footer() {
   return (
@@ -13,7 +14,7 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-3">
               <div className="relative h-10 w-10">
                 <Image
-                  src="/logo.svg"
+                  src={withBasePath("/logo.svg")}
                   alt="StudioPass Logo"
                   fill
                   className="object-contain"

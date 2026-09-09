@@ -40,6 +40,7 @@ import { Accordion } from "@/components/ui/accordion";
 import { CampaignCarousel, Campaign } from "@/components/campaign-carousel";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { StackingCards, StackingCardItem } from "@/components/ui/stacking-card";
+import { withBasePath } from "@/lib/utils";
 
 export default function HomePage() {
   const [onboardOpen, setOnboardOpen] = useState(false);
@@ -50,35 +51,35 @@ export default function HomePage() {
       id: "artist-requests",
       title: "Artist Requests",
       subtitle: "Turn your support into airplay! Request tracks directly on radio stations.",
-      image: "/campaigns/artist-requests.png",
+      image: withBasePath("/campaigns/artist-requests.png"),
       tag: "Music & Artists",
     },
     {
       id: "brand-engagement",
       title: "Brand Engagement",
       subtitle: "Engage with brands and services via live interactive chat. Chat. Discover. Connect.",
-      image: "/campaigns/brand-engagement.png",
+      image: withBasePath("/campaigns/brand-engagement.png"),
       tag: "Brand Activation",
     },
     {
       id: "get-app",
       title: "Download StudioPass",
       subtitle: "Your favorite radio and TV stations everywhere. Get the app today on iOS & Android.",
-      image: "/campaigns/get-app.png",
+      image: withBasePath("/campaigns/get-app.png"),
       tag: "Mobile App",
     },
     {
       id: "shoutouts",
       title: "Shoutouts & Opinions",
       subtitle: "Got a birthday shoutout, message, or opinion? Reach your station instantly.",
-      image: "/campaigns/shoutouts.png",
+      image: withBasePath("/campaigns/shoutouts.png"),
       tag: "Live On-Air",
     },
     {
       id: "coming-soon",
       title: "What's Next",
       subtitle: "Uganda something big is coming soon! Stay tuned and don't miss the new wave.",
-      image: "/campaigns/coming-soon.png",
+      image: withBasePath("/campaigns/coming-soon.png"),
       tag: "Announcements",
     },
   ];
@@ -103,7 +104,7 @@ export default function HomePage() {
       accentColor: "#1e60f2",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)",
       icon: <Headphones className="w-5 h-5" />,
-      image: "/images/audience-listeners.png",
+      image: withBasePath("/images/audience-listeners.png"),
       imageAlt: "StudioPass Listener Mobile Experience",
       badgeText: "Live Listener Interaction",
     },
@@ -126,7 +127,7 @@ export default function HomePage() {
       accentColor: "#0ea5e9",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)",
       icon: <Music className="w-5 h-5" />,
-      image: "/images/audience-artists.png",
+      image: withBasePath("/images/audience-artists.png"),
       imageAlt: "Artist Airplay and Fan Requests",
       badgeText: "Airplay Booster & Charting",
     },
@@ -149,7 +150,7 @@ export default function HomePage() {
       accentColor: "#2563eb",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #eef2ff 100%)",
       icon: <Radio className="w-5 h-5" />,
-      image: "/images/audience-stations.png",
+      image: withBasePath("/images/audience-stations.png"),
       imageAlt: "Broadcaster Studio Console",
       badgeText: "Studio Console & Playout",
     },
@@ -172,7 +173,7 @@ export default function HomePage() {
       accentColor: "#f59e0b",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #fffbeb 50%, #f0f7ff 100%)",
       icon: <Megaphone className="w-5 h-5" />,
-      image: "/images/audience-brands.png",
+      image: withBasePath("/images/audience-brands.png"),
       imageAlt: "Brand Engagement and Analytics",
       badgeText: "Direct Consumer Engagement",
     },
@@ -356,7 +357,7 @@ export default function HomePage() {
               <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/80 bg-white">
                 <div className="relative aspect-4/3 w-full">
                   <Image
-                    src="/images/hero-artist.jpg"
+                    src={withBasePath("/images/hero-artist.jpg")}
                     alt="StudioPass Live Radio Studio"
                     fill
                     priority
@@ -537,7 +538,7 @@ export default function HomePage() {
               <div className="w-full relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-white group">
                 <div className="relative aspect-4/3 w-full">
                   <Image
-                    src="/images/laptop-dashboard.jpg"
+                    src={withBasePath("/images/laptop-dashboard.jpg")}
                     alt="StudioPass Broadcaster Console Dashboard"
                     fill
                     className="object-cover object-center group-hover:scale-102 transition-transform duration-500"
@@ -748,7 +749,7 @@ export default function HomePage() {
               <div className="relative rounded-3xl overflow-hidden border border-slate-200 shadow-xl bg-gradient-to-b from-blue-50/80 to-white p-3 group">
                 <div className="relative aspect-4/3 sm:aspect-square w-full rounded-2xl overflow-hidden">
                   <Image
-                    src="/images/dual-phones-mockup.jpg"
+                    src={withBasePath("/images/dual-phones-mockup.jpg")}
                     alt="StudioPass Dual Phone Mockup"
                     fill
                     className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
@@ -783,19 +784,19 @@ export default function HomePage() {
                 name: "Nabukunya A.",
                 location: "Kampala, Uganda",
                 quote: "StudioPass has made it so easy to keep up with my favorite radio shows. Love it!",
-                avatar: "/images/testimonials/nabukunya.png",
+                avatar: withBasePath("/images/testimonials/nabukunya.png"),
               },
               {
                 name: "Daniel K.",
                 location: "Entebbe, Uganda",
                 quote: "All my radio and TV stations in one place. Super convenient and reliable.",
-                avatar: "/images/testimonials/daniel.png",
+                avatar: withBasePath("/images/testimonials/daniel.png"),
               },
               {
                 name: "Sharon M.",
                 location: "Jinja, Uganda",
                 quote: "Clean design, great content and it just works everywhere I go. Highly recommended!",
-                avatar: "/images/testimonials/sharon.png",
+                avatar: withBasePath("/images/testimonials/sharon.png"),
               },
             ].map((t, i) => (
               <motion.div

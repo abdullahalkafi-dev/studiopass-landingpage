@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OnboardModal } from "@/components/onboard-modal";
+import { withBasePath } from "@/lib/utils";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -27,7 +28,7 @@ export function Navbar() {
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative h-10 w-10 shrink-0">
               <Image
-                src="/logo.svg"
+                src={withBasePath("/logo.svg")}
                 alt="StudioPass Logo"
                 fill
                 className="object-contain group-hover:scale-105 transition-transform"

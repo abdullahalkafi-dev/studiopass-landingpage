@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { withBasePath } from "@/lib/utils";
 
 export interface StackingCardItem {
   id: string;
@@ -139,7 +140,7 @@ function Card({
                 style={{ scale: imageScale }}
               >
                 <Image
-                  src={item.image}
+                  src={withBasePath(item.image)}
                   alt={item.imageAlt}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
