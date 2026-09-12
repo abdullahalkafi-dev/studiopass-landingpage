@@ -31,7 +31,7 @@ export function Footer() {
             </Link>
 
             <p className="text-sm text-slate-600 leading-relaxed max-w-sm">
-              Built for Radio, TV, and Digital Communities. StudioPass connects
+              Built for Radio, TV, Channels and digital communities. StudioPass connects
               audiences directly with the media, creators and brands they love.
             </p>
 
@@ -92,18 +92,28 @@ export function Footer() {
             </h4>
             <ul className="space-y-2.5 text-sm font-medium">
               <li>
-                <Link href="/#for-stations" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
+                <Link href="/#features" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
                   For Radio Stations
                 </Link>
               </li>
               <li>
-                <Link href="/#for-stations" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
+                <Link href="/#features" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
                   For TV Stations
                 </Link>
               </li>
               <li>
-                <Link href="/#for-creators" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
-                  For Brands & Advertisers
+                <Link href="/#features" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
+                  For Artists &amp; Creators
+                </Link>
+              </li>
+              <li>
+                <Link href="/#features" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
+                  For Channels
+                </Link>
+              </li>
+              <li>
+                <Link href="/#features" className="text-slate-600 hover:text-[#1e60f2] transition-colors">
+                  For Brands &amp; Advertisers
                 </Link>
               </li>
               <li>
@@ -214,7 +224,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-slate-500">
           <div>
-            &copy; 2026 StudioPass, by Next Go Tech Africa. All rights reserved.
+            &copy; 2026 Next Go Tech Africa. All rights reserved. StudioPass is a product of Next Go Tech Africa.
           </div>
           <div className="flex items-center gap-1.5 text-slate-500">
             <span>Made with</span>

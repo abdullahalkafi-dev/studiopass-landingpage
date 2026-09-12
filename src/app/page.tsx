@@ -18,7 +18,6 @@ import {
   Heart,
   Megaphone,
   BarChart3,
-  Star,
   Zap,
   CheckCircle2,
   QrCode,
@@ -48,39 +47,46 @@ export default function HomePage() {
 
   const campaigns: Campaign[] = [
     {
-      id: "artist-requests",
-      title: "Artist Requests",
-      subtitle: "Turn your support into airplay! Request tracks directly on radio stations.",
-      image: withBasePath("/campaigns/artist-requests.png"),
-      tag: "Music & Artists",
+      id: "prayer-requests",
+      title: "Prayer Requests",
+      subtitle: "Share heartfelt prayer requests with stations and communities that care.",
+      image: withBasePath("/campaigns/prayer-requests.png"),
+      tag: "Faith & Community",
     },
     {
-      id: "brand-engagement",
-      title: "Brand Engagement",
-      subtitle: "Engage with brands and services via live interactive chat. Chat. Discover. Connect.",
-      image: withBasePath("/campaigns/brand-engagement.png"),
+      id: "live-calls",
+      title: "Live Calls",
+      subtitle: "Join live audio calls with presenters, creators and shows you follow.",
+      image: withBasePath("/campaigns/live-calls.png"),
+      tag: "Live Interaction",
+    },
+    {
+      id: "polls-voting",
+      title: "Polls & Voting",
+      subtitle: "Vote in real time and help shape the next segment, winner or topic.",
+      image: withBasePath("/campaigns/polls-voting.png"),
+      tag: "Audience Voice",
+    },
+    {
+      id: "challenges-rewards",
+      title: "Challenges & Rewards",
+      subtitle: "Join fun challenges, climb the leaderboard and unlock rewards.",
+      image: withBasePath("/campaigns/challenges-rewards.png"),
+      tag: "Gamification",
+    },
+    {
+      id: "creator-channels",
+      title: "Creator Channels",
+      subtitle: "Follow artists, streamers, podcasters and digital communities in one place.",
+      image: withBasePath("/campaigns/creator-channels.png"),
+      tag: "Channels",
+    },
+    {
+      id: "brand-campaigns",
+      title: "Brand Campaigns",
+      subtitle: "Sponsored polls, product drops and measurable audience engagement.",
+      image: withBasePath("/campaigns/brand-campaigns.png"),
       tag: "Brand Activation",
-    },
-    {
-      id: "get-app",
-      title: "Download StudioPass",
-      subtitle: "Your favorite radio and TV stations everywhere. Get the app today on iOS & Android.",
-      image: withBasePath("/campaigns/get-app.png"),
-      tag: "Mobile App",
-    },
-    {
-      id: "shoutouts",
-      title: "Shoutouts & Opinions",
-      subtitle: "Got a birthday shoutout, message, or opinion? Reach your station instantly.",
-      image: withBasePath("/campaigns/shoutouts.png"),
-      tag: "Live On-Air",
-    },
-    {
-      id: "coming-soon",
-      title: "What's Next",
-      subtitle: "Uganda something big is coming soon! Stay tuned and don't miss the new wave.",
-      image: withBasePath("/campaigns/coming-soon.png"),
-      tag: "Announcements",
     },
   ];
 
@@ -88,16 +94,16 @@ export default function HomePage() {
     {
       id: "listeners",
       tag: "For Listeners",
-      title: "Send Shoutouts. Request Songs. Call Live On-Air.",
+      title: "Messages. Voice Notes. Requests. Live Calls.",
       description:
-        "Connect directly with your favourite radio and TV stations. Wish someone a happy birthday, request a trending track, vote in polls, or join live on-air calls — all in one simple app.",
+        "Connect directly with your favourite Radio, TV stations and Channels. Send messages, share voice notes, request songs, join live audio calls, vote in polls, take on challenges, send prayer requests and post status updates — all in one simple app.",
       features: [
         "Send messages & voice notes",
         "Request your favourite songs",
-        "Send on-air shoutouts",
-        "Call participating Radio/TV stations",
-        "Vote in live polls & rankings",
+        "Join live audio calls",
+        "Vote in polls & rankings",
         "Join fun audience challenges",
+        "Send prayer requests & share status updates",
       ],
       ctaText: "Download StudioPass",
       ctaHref: "#download",
@@ -111,16 +117,16 @@ export default function HomePage() {
     {
       id: "artists",
       tag: "For Artists & Creators",
-      title: "Turn Your Support into Airplay. Grow Your Fanbase.",
+      title: "Grow Your Fanbase. Engage Directly with Listeners.",
       description:
-        "Give fans an instant, direct path to request your songs on radio, send shoutouts, and support your career. StudioPass bridges independent musicians with major broadcast platforms.",
+        "Give fans a direct way to connect with you — song requests, messages, voting campaigns and real-time interaction. Build a loyal audience and grow together with Radio, TV and digital communities.",
       features: [
         "Connect with loyal fans directly",
-        "Encourage on-air song requests",
-        "Receive fan voice notes & love",
+        "Receive song requests & fan messages",
         "Run dedicated voting campaigns",
-        "Promote releases across stations",
-        "Track fan engagement data",
+        "Launch fan engagement challenges",
+        "Promote releases & upcoming shows",
+        "Track audience engagement data",
       ],
       ctaText: "Join as an Artist",
       ctaHref: "#partner",
@@ -128,22 +134,45 @@ export default function HomePage() {
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)",
       icon: <Music className="w-5 h-5" />,
       image: withBasePath("/images/audience-artists.png"),
-      imageAlt: "Artist Airplay and Fan Requests",
-      badgeText: "Airplay Booster & Charting",
+      imageAlt: "Artist Fan Engagement and Campaigns",
+      badgeText: "Fan Engagement & Growth",
+    },
+    {
+      id: "channels",
+      tag: "For Channels",
+      title: "Creators. Streamers. Podcasts. Digital Communities.",
+      description:
+        "Channels cover artists, streamers, YouTubers, TikTok creators, podcasters, businesses and other digital communities. Bring your audience closer with messages, live calls, polls and challenges — beyond traditional broadcast.",
+      features: [
+        "Engage your audience in real time",
+        "Host live audio calls & Q&As",
+        "Run polls, votes and challenges",
+        "Share updates with your community",
+        "Grow followers across platforms",
+        "Build a dedicated StudioPass Channel",
+      ],
+      ctaText: "Start a Channel",
+      ctaHref: "#partner",
+      accentColor: "#8b5cf6",
+      bgGradient: "linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%)",
+      icon: <Smartphone className="w-5 h-5" />,
+      image: withBasePath("/images/audience-channels.png"),
+      imageAlt: "Creator and Digital Channel Engagement",
+      badgeText: "Creator & Community Channels",
     },
     {
       id: "stations",
       tag: "For Radio & TV Stations",
-      title: "Receive Messages. Manage Live Calls. Real-Time Playout.",
+      title: "Receive Messages. Manage Live Calls. Engage Your Audience.",
       description:
-        "Give your on-air presenters and studio teams an all-in-one console to curate listener voice notes, moderate live audio callers, run instant polls, and display requests on studio screens.",
+        "Give your on-air presenters and studio teams a simple console to receive listener messages, voice notes and song requests, manage live audio calls, run polls and keep your audience engaged.",
       features: [
         "Receive audience messages & voice notes",
         "Manage live on-air callers with screener",
-        "Automated song request queue",
-        "Live interactive polls & audience voting",
-        "Comprehensive listener analytics",
-        "Fast broadcast onboarding in 48 hours",
+        "Organize song request queues",
+        "Run live polls & audience voting",
+        "View audience engagement insights",
+        "Get started with guided station onboarding",
       ],
       ctaText: "Onboard Your Station",
       ctaHref: "#partner",
@@ -152,21 +181,21 @@ export default function HomePage() {
       icon: <Radio className="w-5 h-5" />,
       image: withBasePath("/images/audience-stations.png"),
       imageAlt: "Broadcaster Studio Console",
-      badgeText: "Studio Console & Playout",
+      badgeText: "Studio Audience Console",
     },
     {
       id: "brands",
       tag: "For Brands & Advertisers",
-      title: "Direct Audience Chat. Sponsored Polls. Real ROI.",
+      title: "Direct Audience Chat. Sponsored Polls. Measurable Engagement.",
       description:
-        "Transform one-way traditional broadcast radio/TV commercials into direct interactive chat channels, branded prize challenges, instant consumer feedback, and measurable conversions.",
+        "Turn one-way broadcast commercials into interactive experiences — branded chats, sponsored polls, prize challenges, audience feedback and measurable engagement across Radio, TV and Channels.",
       features: [
         "Direct 2-way consumer chat activations",
         "Sponsored broadcast polls & quizzes",
         "Product discovery & coupon drops",
         "Audience sentiment & feedback data",
         "Interactive cross-media campaigns",
-        "Measurable customer acquisition",
+        "Measurable audience engagement insights",
       ],
       ctaText: "Partner with Us",
       ctaHref: "#partner",
@@ -175,7 +204,7 @@ export default function HomePage() {
       icon: <Megaphone className="w-5 h-5" />,
       image: withBasePath("/images/audience-brands.png"),
       imageAlt: "Brand Engagement and Analytics",
-      badgeText: "Direct Consumer Engagement",
+      badgeText: "Measurable Brand Engagement",
     },
   ];
 
@@ -184,25 +213,25 @@ export default function HomePage() {
       category: "listeners",
       question: "What is StudioPass?",
       answer:
-        "StudioPass is an international media interaction platform that connects listeners and viewers directly with Radio Stations, TV Stations, Creators and Brands. You can send messages, voice notes, song requests, shoutouts, call live on-air, vote in polls, join challenges and more.",
+        "StudioPass is an international media interaction platform that connects listeners and viewers directly with Radio Stations, TV Stations, Channels, Creators and Brands. You can send messages, voice notes, song requests, call live, vote in polls, join challenges, send prayer requests and share status updates.",
     },
     {
       category: "listeners",
-      question: "Is StudioPass free for listeners to download and use?",
+      question: "Is StudioPass free to download and use?",
       answer:
-        "Yes! Downloading the StudioPass app is completely free on both Google Play and Apple App Store. Core features like following stations, sending requests, and participating in audience polls are completely free.",
+        "StudioPass is free to download on Google Play and the Apple App Store. Some features may require StudioPass credits — any applicable cost will be shown before you complete the interaction.",
     },
     {
       category: "stations",
       question: "How do radio and TV stations join StudioPass?",
       answer:
-        "Stations can apply by clicking 'Become a Partner'. Our onboarding team provides your studio with access to the broadcaster dashboard, setup assistance, and presenter training within 48 hours.",
+        "Stations can apply by clicking 'Become a Partner'. Our onboarding team will guide your studio through dashboard access, setup and presenter training.",
     },
     {
       category: "stations",
       question: "What equipment does our studio need to use StudioPass?",
       answer:
-        "StudioPass is cloud-based and runs in any modern web browser on your studio laptops, iPads, or studio touchscreens. It integrates easily with your existing mixer console and audio playout software.",
+        "StudioPass is cloud-based and runs in any modern web browser on your studio laptops, iPads, or studio touchscreens. It integrates easily with your existing mixer console and audio setup.",
     },
     {
       category: "general",
@@ -212,15 +241,21 @@ export default function HomePage() {
     },
     {
       category: "listeners",
-      question: "Can I request songs and send voice notes?",
+      question: "What can I do in the StudioPass app?",
       answer:
-        "Yes! You can record a voice note or submit a song request directly to your favourite show. Studio presenters receive them instantly and can air them live during their broadcast.",
+        "You can send messages, record voice notes, request songs, join live audio calls, vote in polls, take part in challenges, send prayer requests and share status updates with Radio, TV stations and Channels you follow.",
+    },
+    {
+      category: "listeners",
+      question: "Do some interactions require StudioPass credits?",
+      answer:
+        "Yes. StudioPass is free to download, but selected interactions may require credits. The applicable cost will always be shown before you complete the action.",
     },
     {
       category: "general",
       question: "How can brands and advertisers use StudioPass?",
       answer:
-        "Brands can run sponsored interactive polls, quizzes, product shoutouts, customer feedback channels, and live promotions across partnering radio and television stations.",
+        "Brands can run sponsored interactive polls, quizzes, product campaigns, customer feedback channels and live promotions across partnering radio, television stations and Channels.",
     },
   ];
 
@@ -253,8 +288,8 @@ export default function HomePage() {
                 transition={{ duration: 0.4 }}
               >
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#1e60f2] px-4 py-2 rounded-full bg-blue-50 border border-blue-200/70 shadow-xs inline-flex items-center gap-2">
-                  <RadioTower className="w-3.5 h-3.5 text-[#1e60f2]" />
-                  FOR LISTENERS, ARTISTS &amp; BRANDS
+                    <RadioTower className="w-3.5 h-3.5 text-[#1e60f2]" />
+                  FOR LISTENERS, ARTISTS, CHANNELS &amp; BRANDS
                 </span>
               </motion.div>
 
@@ -278,8 +313,8 @@ export default function HomePage() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="text-base sm:text-lg lg:text-xl text-slate-600 max-w-2xl leading-relaxed"
               >
-                StudioPass brings listeners, artists and brands closer to the radio
-                and TV stations they love. Real people. Real conversations. A more
+                StudioPass brings listeners, artists, channels and brands closer to the
+                radio and TV stations they love. Real people. Real conversations. A more
                 connected media community.
               </motion.p>
 
@@ -368,7 +403,7 @@ export default function HomePage() {
                   {/* Scribble Sticker Annotation */}
                   <div className="absolute top-4 right-4 bg-[#1e60f2] text-white px-3.5 py-1.5 rounded-xl font-extrabold text-xs shadow-lg rotate-3 border border-white/30 flex items-center gap-1.5">
                     <Radio className="w-3.5 h-3.5 text-amber-300" />
-                    Turn support into airplay!
+                    Connect with your audience!
                   </div>
 
                   {/* Floating App Preview Pill on bottom */}
@@ -456,7 +491,7 @@ export default function HomePage() {
               Real Engagement. Built for Everyone.
             </h2>
             <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed">
-              Whether you&apos;re a fan, an artist, a radio or TV station, or a forward-thinking brand —
+              Whether you&apos;re a fan, an artist, a Channel, a radio or TV station, or a forward-thinking brand —
               StudioPass delivers tailored tools for meaningful interaction.
             </p>
           </div>
@@ -476,12 +511,12 @@ export default function HomePage() {
               How It Works
             </span>
             <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-              From Fans to Airwaves.{" "}
+              Download. Connect. Interact.{" "}
               <span className="text-[#1e60f2]">It&apos;s That Simple.</span>
             </h2>
             <p className="mt-4 text-slate-600 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
-              StudioPass makes it easy for fans to connect with their favourite
-              stations, presenters, and brands in just a few taps. Real people. Real messages. Real impact.
+              StudioPass makes it easy to connect with your favourite Radio, TV
+              stations and Channels in just a few taps. Real people. Real messages. Real impact.
             </p>
           </div>
 
@@ -491,23 +526,23 @@ export default function HomePage() {
               {[
                 {
                   step: 1,
-                  title: "Fan opens the app",
-                  desc: "Fans download StudioPass and choose their favourite station, show or brand channel.",
+                  title: "Download StudioPass",
+                  desc: "Get the free app on iOS or Android and create your profile in minutes.",
                 },
                 {
                   step: 2,
-                  title: "Sends request or shoutout",
-                  desc: "They submit a song request, shoutout, question or message in seconds.",
+                  title: "Choose Radio, TV or a Channel",
+                  desc: "Follow your favourite stations, shows, artists, creators and communities.",
                 },
                 {
                   step: 3,
-                  title: "Presenter receives it live",
-                  desc: "Requests appear in real-time on the StudioPass dashboard for broadcasters.",
+                  title: "Interact your way",
+                  desc: "Send messages, voice notes, song requests, live calls, polls, challenges and more.",
                 },
                 {
                   step: 4,
-                  title: "Reaches on-air airwaves",
-                  desc: "Selected messages go live on-air, on social, or through brand activations.",
+                  title: "They engage with you",
+                  desc: "Stations and Channels receive your interactions and respond — on-air or in-app.",
                 },
               ].map((item, idx) => (
                 <div
@@ -637,9 +672,9 @@ export default function HomePage() {
                 Download StudioPass in Seconds
               </h2>
               <p className="text-slate-600 text-sm sm:text-base lg:text-lg leading-relaxed max-w-xl">
-                Your favorite radio and TV stations. Now closer than ever.
-                Send messages, request songs, call live on-air, and stay connected
-                with the broadcast shows you love.
+                Your favourite Radio, TV stations and Channels — now closer than ever.
+                Send messages, voice notes, request songs, join live calls, vote in polls
+                and stay connected with the shows and creators you love.
               </p>
 
               {/* 3 feature badges */}
@@ -654,7 +689,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-[#1e60f2]" />
-                  <span>Always Free</span>
+                  <span>Free to Download</span>
                 </div>
               </div>
 
@@ -760,86 +795,6 @@ export default function HomePage() {
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      {/* TESTIMONIALS SECTION                                                  */}
-      {/* ────────────────────────────────────────────────────────────────────── */}
-      <section className="py-24 sm:py-32 lg:py-36 bg-[#f8faff]">
-        <div className="w-[92%] lg:w-[86%] max-w-[1440px] 2xl:max-w-[1536px] mx-auto">
-          <div className="text-center mb-16">
-            <span className="text-xs font-extrabold uppercase tracking-wider text-[#1e60f2] px-4 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 inline-block mb-3.5">
-              What Our Community Says
-            </span>
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
-              Trusted by Thousands of Listeners
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-10">
-            {[
-              {
-                name: "Nabukunya A.",
-                location: "Kampala, Uganda",
-                quote: "StudioPass has made it so easy to keep up with my favorite radio shows. Love it!",
-                avatar: withBasePath("/images/testimonials/nabukunya.png"),
-              },
-              {
-                name: "Daniel K.",
-                location: "Entebbe, Uganda",
-                quote: "All my radio and TV stations in one place. Super convenient and reliable.",
-                avatar: withBasePath("/images/testimonials/daniel.png"),
-              },
-              {
-                name: "Sharon M.",
-                location: "Jinja, Uganda",
-                quote: "Clean design, great content and it just works everywhere I go. Highly recommended!",
-                avatar: withBasePath("/images/testimonials/sharon.png"),
-              },
-            ].map((t, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="p-9 rounded-3xl bg-white border border-slate-200/80 shadow-md hover:shadow-2xl hover:border-[#1e60f2]/30 transition-all space-y-6"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="relative h-14 w-14 rounded-full overflow-hidden border-2 border-[#1e60f2]/20 shrink-0 shadow-sm">
-                    <Image
-                      src={t.avatar}
-                      alt={t.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <h5 className="text-base font-bold text-slate-900">{t.name}</h5>
-                    <p className="text-xs font-semibold text-slate-400">{t.location}</p>
-                  </div>
-                </div>
-
-                <p className="text-slate-600 text-sm sm:text-base leading-relaxed italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-
-                <div className="flex items-center gap-1 pt-1">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                  ))}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Dots */}
-          <div className="flex items-center justify-center gap-2 mt-12">
-            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
-            <span className="h-2.5 w-9 rounded-full bg-[#1e60f2]" />
-            <span className="h-2.5 w-2.5 rounded-full bg-slate-300" />
           </div>
         </div>
       </section>
@@ -952,8 +907,8 @@ export default function HomePage() {
             </h2>
 
             <p className="text-white/90 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed relative z-10 font-medium">
-              Join forward-thinking radio and television broadcasters, creators,
-              and brands transforming audience engagement across Africa with StudioPass.
+              Join forward-thinking radio and television broadcasters, channels,
+              creators, and brands transforming audience engagement with StudioPass.
             </p>
 
             <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-4 relative z-10">

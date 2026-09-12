@@ -58,7 +58,7 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
             Creative Campaign Gallery
           </h2>
           <p className="mt-2.5 text-slate-600 text-sm sm:text-base max-w-2xl leading-relaxed">
-            Real stories. Real engagement. See how StudioPass helps broadcasters and brands bring people closer to the moments that matter.
+            Real stories. Real engagement. See how StudioPass connects Radio &amp; TV stations, Channels, Creators, Brands and Audiences together.
           </p>
         </div>
 

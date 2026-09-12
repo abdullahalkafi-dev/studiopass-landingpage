@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "StudioPass | One Platform. More Ways to Connect.",
     description:
-      "StudioPass brings listeners, artists and brands closer to the radio and TV stations they love. Real people. Real conversations. A more connected media community.",
+      "StudioPass brings listeners, artists, channels and brands closer to the radio and TV stations they love. Real people. Real conversations. A more connected media community.",
     images: ["/landing-page/logo.png"],
   },
 };
