@@ -60,13 +60,13 @@ export function Navbar() {
 
           {/* Desktop Action Buttons */}
           <div className="hidden lg:flex items-center gap-3.5">
-            <a
-              href="#download"
+            <Link
+              href="/#download"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#1e60f2] transition-colors px-4 py-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200"
             >
               <Download className="w-4 h-4 text-[#1e60f2]" />
               Download App
-            </a>
+            </Link>
 
             <Button
               variant="default"
@@ -106,14 +106,14 @@ export function Navbar() {
             </nav>
 
             <div className="pt-4 border-t border-slate-200 flex flex-col gap-3">
-              <a
-                href="#download"
+              <Link
+                href="/#download"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-300 text-slate-800 text-sm font-bold hover:bg-slate-50 transition-colors"
               >
                 <Download className="w-4 h-4 text-[#1e60f2]" />
                 Download App
-              </a>
+              </Link>
               <Button
                 variant="default"
                 className="w-full bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold py-3 rounded-xl shadow-md"

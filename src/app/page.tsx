@@ -44,6 +44,7 @@ import { withBasePath } from "@/lib/utils";
 export default function HomePage() {
   const [onboardOpen, setOnboardOpen] = useState(false);
   const [faqFilter, setFaqFilter] = useState<"all" | "listeners" | "stations" | "general">("all");
+  const [subscribed, setSubscribed] = useState(false);
 
   const campaigns: Campaign[] = [
     {
@@ -821,27 +822,39 @@ export default function HomePage() {
               </div>
 
               <div className="lg:col-span-5 space-y-3.5">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    alert("Thank you for subscribing to StudioPass updates!");
-                  }}
-                  className="flex flex-col sm:flex-row items-center gap-3"
-                >
-                  <input
-                    type="email"
-                    required
-                    placeholder="Enter your email address"
-                    className="w-full sm:flex-1 px-5 py-4 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e60f2] shadow-sm"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#1e60f2]/25 transition-all whitespace-nowrap cursor-pointer flex items-center justify-center gap-2"
+                {subscribed ? (
+                  <div className="p-6 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center gap-3.5 shadow-sm">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
+                    <div>
+                      <h4 className="font-bold text-base">You&apos;re on the list!</h4>
+                      <p className="text-xs text-emerald-700 mt-0.5">
+                        Thank you for subscribing to StudioPass updates.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setSubscribed(true);
+                    }}
+                    className="flex flex-col sm:flex-row items-center gap-3"
                   >
-                    Subscribe
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
-                </form>
+                    <input
+                      type="email"
+                      required
+                      placeholder="Enter your email address"
+                      className="w-full sm:flex-1 px-5 py-4 rounded-2xl bg-white border border-slate-300 text-slate-900 placeholder-slate-400 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-[#1e60f2] shadow-sm"
+                    />
+                    <button
+                      type="submit"
+                      className="w-full sm:w-auto px-8 py-4 rounded-2xl bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold text-sm sm:text-base shadow-lg shadow-[#1e60f2]/25 transition-all whitespace-nowrap cursor-pointer flex items-center justify-center gap-2"
+                    >
+                      Subscribe
+                      <ArrowRight className="w-4 h-4" />
+                    </button>
+                  </form>
+                )}
                 <div className="flex items-center justify-between text-xs text-slate-500 font-medium px-1">
                   <span>No spam. Just the good stuff.</span>
                   <span className="text-[#1e60f2] font-semibold italic">Radio. TV. Everywhere with you.</span>

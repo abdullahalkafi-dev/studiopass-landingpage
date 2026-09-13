@@ -34,11 +34,8 @@ export default function ContactPage() {
     setLoading(true);
 
     try {
-      await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // Frontend simulation - no external action or database write
+      await new Promise((resolve) => setTimeout(resolve, 400));
       setSubmitted(true);
     } catch (err) {
       console.error(err);

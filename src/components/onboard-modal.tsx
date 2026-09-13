@@ -39,11 +39,8 @@ export function OnboardModal({ open, onOpenChange }: OnboardModalProps) {
     setLoading(true);
 
     try {
-      await fetch("/api/onboard", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      // Frontend simulation - no external action or database write
+      await new Promise((resolve) => setTimeout(resolve, 400));
 
       confetti({
         particleCount: 80,

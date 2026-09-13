@@ -48,12 +48,14 @@ export function SmoothScrollProvider({
       const hashIndex = href.indexOf("#");
       if (hashIndex !== -1) {
         const pathPart = href.slice(0, hashIndex);
+        const currentPath = window.location.pathname.replace(/\/$/, "");
+        const targetPath = pathPart.replace(/\/$/, "");
+
         const isSamePage =
           !pathPart ||
-          pathPart === "" ||
-          pathPart === "/" ||
-          pathPart === "/landing-page" ||
-          pathPart === "/landing-page/";
+          targetPath === currentPath ||
+          ((currentPath === "" || currentPath === "/landing-page") &&
+            (targetPath === "" || targetPath === "/landing-page"));
 
         if (isSamePage) {
           const targetId = href.slice(hashIndex);
