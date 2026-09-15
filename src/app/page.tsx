@@ -48,18 +48,53 @@ export default function HomePage() {
 
   const campaigns: Campaign[] = [
     {
-      id: "prayer-requests",
-      title: "Prayer Requests",
-      subtitle: "Share heartfelt prayer requests with stations and communities that care.",
-      image: withBasePath("/campaigns/prayer-requests.png"),
-      tag: "Faith & Community",
+      id: "artist-requests",
+      title: "Artist Airplay & Fan Requests",
+      subtitle: "Musicians like TOJO 256 turn listener support into verified radio airplay.",
+      image: withBasePath("/campaigns/artist-requests.png"),
+      tag: "Music & Airplay",
+    },
+    {
+      id: "shoutouts",
+      title: "TV & Radio Shoutouts",
+      subtitle: "Reach NBS TV and your favorite radio stations with birthdays and opinions.",
+      image: withBasePath("/campaigns/shoutouts.png"),
+      tag: "Live On-Air",
+    },
+    {
+      id: "brand-campaigns",
+      title: "Brand & Service Chat",
+      subtitle: "Engage with top brands and services via direct chat and sponsored activations.",
+      image: withBasePath("/campaigns/brand-campaigns.png"),
+      tag: "Brand Activation",
     },
     {
       id: "live-calls",
-      title: "Live Calls",
-      subtitle: "Join live audio calls with presenters, creators and shows you follow.",
-      image: withBasePath("/campaigns/live-calls.png"),
+      title: "Live Calls On-Air",
+      subtitle: "Join live audio calls with presenters, creators and broadcast shows you follow.",
+      image: withBasePath("/campaigns/live-calls.jpg"),
       tag: "Live Interaction",
+    },
+    {
+      id: "coming-soon",
+      title: "Something Big Coming Soon",
+      subtitle: "Next Go Tech and StudioPass are bringing unified live engagement to Uganda.",
+      image: withBasePath("/campaigns/coming-soon.png"),
+      tag: "Launch Teaser",
+    },
+    {
+      id: "get-app",
+      title: "Download StudioPass",
+      subtitle: "Get the mobile app on iOS and Android to connect with radio and TV everywhere.",
+      image: withBasePath("/campaigns/get-app.png"),
+      tag: "Mobile App",
+    },
+    {
+      id: "creator-channels",
+      title: "Creator Channels & Social",
+      subtitle: "Follow artists, streamers, podcasters and digital communities in one place.",
+      image: withBasePath("/campaigns/creator-channels.png"),
+      tag: "Channels",
     },
     {
       id: "polls-voting",
@@ -69,25 +104,18 @@ export default function HomePage() {
       tag: "Audience Voice",
     },
     {
+      id: "prayer-requests",
+      title: "Prayer Requests",
+      subtitle: "Share heartfelt prayer requests with stations and communities that care.",
+      image: withBasePath("/campaigns/prayer-requests.png"),
+      tag: "Faith & Community",
+    },
+    {
       id: "challenges-rewards",
       title: "Challenges & Rewards",
       subtitle: "Join fun challenges, climb the leaderboard and unlock rewards.",
       image: withBasePath("/campaigns/challenges-rewards.png"),
       tag: "Gamification",
-    },
-    {
-      id: "creator-channels",
-      title: "Creator Channels",
-      subtitle: "Follow artists, streamers, podcasters and digital communities in one place.",
-      image: withBasePath("/campaigns/creator-channels.png"),
-      tag: "Channels",
-    },
-    {
-      id: "brand-campaigns",
-      title: "Brand Campaigns",
-      subtitle: "Sponsored polls, product drops and measurable audience engagement.",
-      image: withBasePath("/campaigns/brand-campaigns.png"),
-      tag: "Brand Activation",
     },
   ];
 
@@ -111,7 +139,7 @@ export default function HomePage() {
       accentColor: "#1e60f2",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #f0f7ff 100%)",
       icon: <Headphones className="w-5 h-5" />,
-      image: withBasePath("/images/audience-listeners.png"),
+      image: withBasePath("/images/audience-listeners.jpg"),
       imageAlt: "StudioPass Listener Mobile Experience",
       badgeText: "Live Listener Interaction",
     },
@@ -134,7 +162,7 @@ export default function HomePage() {
       accentColor: "#0ea5e9",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #eff6ff 100%)",
       icon: <Music className="w-5 h-5" />,
-      image: withBasePath("/images/audience-artists.png"),
+      image: withBasePath("/images/audience-artists.jpg"),
       imageAlt: "Artist Fan Engagement and Campaigns",
       badgeText: "Fan Engagement & Growth",
     },
@@ -157,7 +185,7 @@ export default function HomePage() {
       accentColor: "#8b5cf6",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%)",
       icon: <Smartphone className="w-5 h-5" />,
-      image: withBasePath("/images/audience-channels.png"),
+      image: withBasePath("/images/audience-channels.jpg"),
       imageAlt: "Creator and Digital Channel Engagement",
       badgeText: "Creator & Community Channels",
     },
@@ -180,7 +208,7 @@ export default function HomePage() {
       accentColor: "#2563eb",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #eef2ff 100%)",
       icon: <Radio className="w-5 h-5" />,
-      image: withBasePath("/images/audience-stations.png"),
+      image: withBasePath("/images/audience-stations.jpg"),
       imageAlt: "Broadcaster Studio Console",
       badgeText: "Studio Audience Console",
     },
@@ -203,7 +231,7 @@ export default function HomePage() {
       accentColor: "#f59e0b",
       bgGradient: "linear-gradient(135deg, #ffffff 0%, #fffbeb 50%, #f0f7ff 100%)",
       icon: <Megaphone className="w-5 h-5" />,
-      image: withBasePath("/images/audience-brands.png"),
+      image: withBasePath("/images/audience-brands.jpg"),
       imageAlt: "Brand Engagement and Analytics",
       badgeText: "Measurable Brand Engagement",
     },
@@ -574,18 +602,18 @@ export default function HomePage() {
               <div className="w-full relative rounded-3xl overflow-hidden border border-slate-200 shadow-2xl bg-white group">
                 <div className="relative aspect-4/3 w-full">
                   <Image
-                    src={withBasePath("/images/laptop-dashboard.jpg")}
+                    src={withBasePath("/images/laptop-dashboard.png")}
                     alt="StudioPass Broadcaster Console Dashboard"
                     fill
-                    className="object-cover object-center group-hover:scale-102 transition-transform duration-500"
+                    className="object-cover object-top group-hover:scale-102 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                   <div className="absolute bottom-4 left-4 right-4 text-white">
                     <p className="text-xs font-bold uppercase tracking-wider text-blue-200">
-                      Broadcaster Studio Console
+                      Broadcaster &amp; Station Console
                     </p>
                     <p className="text-sm font-bold">
-                      Urban FM &bull; Live Listener Requests &amp; Analytics
+                      Station Management, Real-Time Listener Calls &amp; Analytics
                     </p>
                   </div>
                 </div>
