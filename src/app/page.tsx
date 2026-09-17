@@ -39,7 +39,7 @@ import { Accordion } from "@/components/ui/accordion";
 import { CampaignCarousel, Campaign } from "@/components/campaign-carousel";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 import { StackingCards, StackingCardItem } from "@/components/ui/stacking-card";
-import { withBasePath } from "@/lib/utils";
+import { withBasePath, APK_DOWNLOAD_URL } from "@/lib/utils";
 
 export default function HomePage() {
   const [onboardOpen, setOnboardOpen] = useState(false);
@@ -346,7 +346,8 @@ export default function HomePage() {
                 </Button>
 
                 <a
-                  href="#download"
+                  href={APK_DOWNLOAD_URL}
+                  download="studiopass-release.apk"
                   className="inline-flex items-center gap-2.5 px-7 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 text-base font-bold border-2 border-slate-200 hover:border-slate-300 shadow-sm transition-all"
                 >
                   <Download className="w-5 h-5 text-[#1e60f2]" />
@@ -382,6 +383,14 @@ export default function HomePage() {
                     <path fill="#FBBC05" d="M19.998 11.137l-2.302-1.33-2.535 2.193 2.535 2.193 2.302-1.33a1 1 0 000-1.726z"/>
                   </svg>
                   <span>Google Play</span>
+                </a>
+                <a
+                  href={APK_DOWNLOAD_URL}
+                  download="studiopass-release.apk"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-[#1e60f2] text-white font-bold text-xs hover:bg-[#185adb] transition-colors shadow-xs"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Android APK</span>
                 </a>
                 <span className="hidden sm:inline-block text-[#1e60f2] font-bold italic ml-2">
                   Download the app today! ↗

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { OnboardModal } from "@/components/onboard-modal";
-import { withBasePath } from "@/lib/utils";
+import { withBasePath, APK_DOWNLOAD_URL } from "@/lib/utils";
 
 export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,13 +60,14 @@ export function Navbar() {
 
           {/* Desktop / tablet action buttons */}
           <div className="hidden lg:flex items-center gap-3.5">
-            <Link
-              href="/#download"
+            <a
+              href={APK_DOWNLOAD_URL}
+              download="studiopass-release.apk"
               className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-700 hover:text-[#1e60f2] transition-colors px-4 py-2.5 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200"
             >
               <Download className="w-4 h-4 text-[#1e60f2]" />
               Download App
-            </Link>
+            </a>
 
             <Button
               variant="default"
@@ -106,14 +107,15 @@ export function Navbar() {
             </nav>
 
             <div className="pt-4 border-t border-slate-200 flex flex-col gap-3">
-              <Link
-                href="/#download"
+              <a
+                href={APK_DOWNLOAD_URL}
+                download="studiopass-release.apk"
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-center gap-2 py-3 rounded-xl border border-slate-300 text-slate-800 text-sm font-bold hover:bg-slate-50 transition-colors"
               >
                 <Download className="w-4 h-4 text-[#1e60f2]" />
                 Download App
-              </Link>
+              </a>
               <Button
                 variant="default"
                 className="w-full bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold py-3 rounded-xl shadow-md"

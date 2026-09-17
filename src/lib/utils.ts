@@ -7,6 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 
 export const BASE_PATH = "";
 
+/** Direct Android APK download (served by Nginx on the landing host). */
+export const APK_DOWNLOAD_URL = "/studiopass-release.apk";
+
 export function withBasePath(path: string): string {
   if (!path) return path;
   if (
