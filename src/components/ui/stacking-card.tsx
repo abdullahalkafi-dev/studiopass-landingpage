@@ -55,12 +55,18 @@ function Card({
 
   const isLast = index === total - 1;
 
+  // Signature sticky deck (same feel as the approved version):
+  // Outer wrapper pins at the top; inner card scales as the next one arrives.
+  // Tall runway on all breakpoints so 1080p monitors still get a clear stack.
+  const wrapperHeight = isLast
+    ? "min-h-[50vh] sm:min-h-[55vh] lg:min-h-[60vh]"
+    : "min-h-[98vh] lg:min-h-[102vh]";
+
   return (
     <div
       ref={containerRef}
-      className={`flex items-center justify-center sticky top-0 py-4 sm:py-6 ${
-        isLast ? "min-h-[50vh] sm:min-h-[55vh] lg:min-h-[60vh]" : "min-h-[98vh] lg:min-h-[102vh]"
-      }`}
+      className={`flex items-center justify-center sticky top-0 py-4 sm:py-6 ${wrapperHeight}`}
+      style={{ zIndex: index + 1 }}
     >
       <motion.div
         style={{
@@ -75,7 +81,7 @@ function Card({
           style={{ background: item.bgGradient }}
         />
 
-        {/* Ambient subtle light glow */}
+        {/* Ambient blue glow — brand accent */}
         <div
           className="absolute -right-20 -top-20 w-96 h-96 rounded-full blur-3xl opacity-20 pointer-events-none -z-10"
           style={{ background: item.accentColor }}
@@ -107,15 +113,15 @@ function Card({
               </p>
             </div>
 
-            {/* Feature Bullets in 2 columns */}
+            {/* Feature bullets — wrap so long labels stay readable */}
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1.5">
               {item.features.map((feature, idx) => (
                 <li
                   key={idx}
-                  className="flex items-center gap-2.5 text-xs sm:text-sm font-medium text-slate-700 bg-white/85 backdrop-blur-xs px-3.5 py-2 rounded-2xl border border-slate-200/70 shadow-2xs"
+                  className="flex items-start gap-2.5 text-xs sm:text-sm font-medium text-slate-700 bg-white/85 backdrop-blur-xs px-3.5 py-2 rounded-2xl border border-slate-200/70 shadow-2xs"
                 >
-                  <CheckCircle2 className="w-4 h-4 text-[#1e60f2] shrink-0" />
-                  <span className="truncate">{feature}</span>
+                  <CheckCircle2 className="w-4 h-4 text-[#1e60f2] shrink-0 mt-0.5" />
+                  <span>{feature}</span>
                 </li>
               ))}
             </ul>
@@ -178,7 +184,8 @@ export function StackingCards({ items }: StackingCardsProps) {
   return (
     <div ref={containerRef} className="relative pb-0 sm:pb-2">
       {items.map((item, i) => {
-        const targetScale = 1 - (items.length - i) * 0.035;
+        // Slightly stronger scale step so the deck is more visible on 1080p
+        const targetScale = 1 - (items.length - i) * 0.04;
         const range: [number, number] = [i * (1 / items.length), 1];
 
         return (

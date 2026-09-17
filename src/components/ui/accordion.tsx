@@ -22,7 +22,8 @@ export function AccordionItem({
     <div className="border-b border-slate-200/80 py-4 transition-colors">
       <button
         onClick={onToggle}
-        className="flex w-full items-center justify-between text-left text-base sm:text-lg font-bold text-slate-900 hover:text-[#1e60f2] transition-colors py-2 gap-4 cursor-pointer group"
+        aria-expanded={isOpen}
+        className="flex w-full items-center justify-between text-left text-base sm:text-lg font-bold text-slate-900 hover:text-[#1e60f2] transition-colors py-2 gap-4 cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1e60f2] focus-visible:ring-offset-2 rounded-lg"
       >
         <span className="group-hover:translate-x-0.5 transition-transform">{question}</span>
         <motion.div

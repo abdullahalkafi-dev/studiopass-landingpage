@@ -45,20 +45,20 @@ export function Navbar() {
             </div>
           </Link>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden xl:flex items-center gap-7">
+          {/* Desktop / tablet navigation links */}
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7">
             {navLinks.map((link) => (
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-sm font-semibold text-slate-600 hover:text-[#1e60f2] transition-colors relative py-1 hover:translate-y-[-1px]"
+                className="text-sm font-semibold text-slate-600 hover:text-[#1e60f2] transition-colors relative py-1 hover:translate-y-[-1px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#1e60f2] focus-visible:ring-offset-2 rounded"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
 
-          {/* Desktop Action Buttons */}
+          {/* Desktop / tablet action buttons */}
           <div className="hidden lg:flex items-center gap-3.5">
             <Link
               href="/#download"
@@ -79,7 +79,7 @@ export function Navbar() {
             </Button>
           </div>
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile / small tablet menu toggle */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden p-2.5 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors"

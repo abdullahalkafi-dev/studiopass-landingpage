@@ -46,55 +46,22 @@ export default function HomePage() {
   const [faqFilter, setFaqFilter] = useState<"all" | "listeners" | "stations" | "general">("all");
   const [subscribed, setSubscribed] = useState(false);
 
+  // Official campaign graphics will replace these paths later.
+  // Keep filenames; no pending labels on the live page.
   const campaigns: Campaign[] = [
     {
-      id: "artist-requests",
-      title: "Artist Airplay & Fan Requests",
-      subtitle: "Musicians like TOJO 256 turn listener support into verified radio airplay.",
-      image: withBasePath("/campaigns/artist-requests.png"),
-      tag: "Music & Airplay",
-    },
-    {
-      id: "shoutouts",
-      title: "TV & Radio Shoutouts",
-      subtitle: "Reach NBS TV and your favorite radio stations with birthdays and opinions.",
-      image: withBasePath("/campaigns/shoutouts.png"),
-      tag: "Live On-Air",
-    },
-    {
-      id: "brand-campaigns",
-      title: "Brand & Service Chat",
-      subtitle: "Engage with top brands and services via direct chat and sponsored activations.",
-      image: withBasePath("/campaigns/brand-campaigns.png"),
-      tag: "Brand Activation",
+      id: "prayer-requests",
+      title: "Prayer Requests",
+      subtitle: "Share heartfelt prayer requests with stations and communities that care.",
+      image: withBasePath("/campaigns/prayer-requests.png"),
+      tag: "Faith & Community",
     },
     {
       id: "live-calls",
-      title: "Live Calls On-Air",
-      subtitle: "Join live audio calls with presenters, creators and broadcast shows you follow.",
+      title: "Live Calls",
+      subtitle: "Join live audio calls with presenters, creators and shows you follow.",
       image: withBasePath("/campaigns/live-calls.jpg"),
       tag: "Live Interaction",
-    },
-    {
-      id: "coming-soon",
-      title: "Something Big Coming Soon",
-      subtitle: "Next Go Tech and StudioPass are bringing unified live engagement to Uganda.",
-      image: withBasePath("/campaigns/coming-soon.png"),
-      tag: "Launch Teaser",
-    },
-    {
-      id: "get-app",
-      title: "Download StudioPass",
-      subtitle: "Get the mobile app on iOS and Android to connect with radio and TV everywhere.",
-      image: withBasePath("/campaigns/get-app.png"),
-      tag: "Mobile App",
-    },
-    {
-      id: "creator-channels",
-      title: "Creator Channels & Social",
-      subtitle: "Follow artists, streamers, podcasters and digital communities in one place.",
-      image: withBasePath("/campaigns/creator-channels.png"),
-      tag: "Channels",
     },
     {
       id: "polls-voting",
@@ -104,18 +71,32 @@ export default function HomePage() {
       tag: "Audience Voice",
     },
     {
-      id: "prayer-requests",
-      title: "Prayer Requests",
-      subtitle: "Share heartfelt prayer requests with stations and communities that care.",
-      image: withBasePath("/campaigns/prayer-requests.png"),
-      tag: "Faith & Community",
-    },
-    {
       id: "challenges-rewards",
       title: "Challenges & Rewards",
       subtitle: "Join fun challenges, climb the leaderboard and unlock rewards.",
       image: withBasePath("/campaigns/challenges-rewards.png"),
       tag: "Gamification",
+    },
+    {
+      id: "creator-channels",
+      title: "Creator Channels",
+      subtitle: "Follow artists, streamers, podcasters and digital communities in one place.",
+      image: withBasePath("/campaigns/creator-channels.png"),
+      tag: "Channels",
+    },
+    {
+      id: "brand-campaigns",
+      title: "Brand Campaigns",
+      subtitle: "Sponsored polls, product drops and measurable audience engagement.",
+      image: withBasePath("/campaigns/brand-campaigns.png"),
+      tag: "Brand Activation",
+    },
+    {
+      id: "get-app",
+      title: "Download StudioPass",
+      subtitle: "Get the mobile app on iOS and Android to connect with radio, TV and Channels.",
+      image: withBasePath("/campaigns/get-app.png"),
+      tag: "Mobile App",
     },
   ];
 
@@ -317,8 +298,8 @@ export default function HomePage() {
                 transition={{ duration: 0.4 }}
               >
                 <span className="text-xs font-extrabold uppercase tracking-widest text-[#1e60f2] px-4 py-2 rounded-full bg-blue-50 border border-blue-200/70 shadow-xs inline-flex items-center gap-2">
-                    <RadioTower className="w-3.5 h-3.5 text-[#1e60f2]" />
-                  FOR LISTENERS, ARTISTS, CHANNELS &amp; BRANDS
+                  <RadioTower className="w-3.5 h-3.5 text-[#1e60f2]" />
+                  LISTENERS · ARTISTS · CHANNELS · BRANDS
                 </span>
               </motion.div>
 
@@ -415,7 +396,7 @@ export default function HomePage() {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="lg:col-span-5 relative flex items-center justify-center"
             >
-              {/* Decorative organic background shape */}
+              {/* Decorative soft blue glow behind hero visual */}
               <div className="absolute w-[95%] h-[95%] rounded-3xl bg-gradient-to-tr from-[#1e60f2]/15 to-sky-400/25 blur-2xl -z-10" />
 
               <div className="w-full relative rounded-3xl overflow-hidden shadow-2xl border border-white/80 bg-white">
@@ -429,26 +410,26 @@ export default function HomePage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
 
-                  {/* Scribble Sticker Annotation */}
+                  {/* Brand sticker — single hero accent */}
                   <div className="absolute top-4 right-4 bg-[#1e60f2] text-white px-3.5 py-1.5 rounded-xl font-extrabold text-xs shadow-lg rotate-3 border border-white/30 flex items-center gap-1.5">
                     <Radio className="w-3.5 h-3.5 text-amber-300" />
                     Connect with your audience!
                   </div>
 
                   {/* Floating App Preview Pill on bottom */}
-                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-4 shadow-xl border border-white flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-xl bg-[#1e60f2] flex items-center justify-center text-white font-bold text-sm shadow-md">
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-md rounded-2xl p-3 sm:p-4 shadow-xl border border-white flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="h-10 w-10 rounded-xl bg-[#1e60f2] flex items-center justify-center text-white font-bold text-sm shadow-md shrink-0">
                         SP
                       </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-900">StudioPass Mobile</p>
-                        <p className="text-[11px] text-slate-500">Radio &bull; TV &bull; Everywhere</p>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-slate-900 truncate">StudioPass Mobile</p>
+                        <p className="text-[11px] text-slate-500 truncate">Radio &bull; TV &bull; Channels</p>
                       </div>
                     </div>
                     <a
                       href="#download"
-                      className="px-4 py-2 rounded-xl bg-[#1e60f2] hover:bg-[#185adb] text-white text-xs font-bold transition-colors"
+                      className="px-4 py-2 rounded-xl bg-[#1e60f2] hover:bg-[#185adb] text-white text-xs font-bold transition-colors shrink-0"
                     >
                       Get App
                     </a>
@@ -456,12 +437,9 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Handwritten-style sticker pills */}
+              {/* One soft brand sticker — kept light for a cleaner marketing look */}
               <div className="hidden sm:block absolute -top-5 -left-6 text-[#1e60f2] text-xs font-black -rotate-6 bg-white/95 backdrop-blur-xs px-4 py-1.5 rounded-full shadow-lg border border-blue-100">
                 Good Music Brings Us Closer ♡
-              </div>
-              <div className="hidden sm:block absolute -bottom-5 -right-4 text-slate-800 text-[11px] font-black uppercase tracking-wider rotate-3 bg-white/95 backdrop-blur-xs px-3.5 py-1.5 rounded-full shadow-md border border-slate-200">
-                REAL PEOPLE REAL AIRWAVES
               </div>
             </motion.div>
           </div>
@@ -470,31 +448,31 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mt-20 pt-10 border-t border-slate-200/80">
             {[
               {
-                icon: <Radio className="w-5 h-5 text-[#1e60f2]" />,
+                icon: <Radio className="w-5 h-5 text-slate-600" />,
                 title: "Radio & TV",
                 desc: "Real conversations everywhere",
               },
               {
-                icon: <Users className="w-5 h-5 text-[#1e60f2]" />,
-                title: "Stronger Communities",
-                desc: "Fans. Artists. Brands. Together.",
+                icon: <Users className="w-5 h-5 text-slate-600" />,
+                title: "Channels & Creators",
+                desc: "Artists. Streamers. Communities.",
               },
               {
-                icon: <BarChart3 className="w-5 h-5 text-[#1e60f2]" />,
+                icon: <BarChart3 className="w-5 h-5 text-slate-600" />,
                 title: "Meaningful Engagement",
-                desc: "More than just the airwaves",
+                desc: "Messages, polls, calls & more",
               },
               {
-                icon: <Heart className="w-5 h-5 text-[#1e60f2]" />,
-                title: "Real People. Real Impact.",
-                desc: "A more connected tomorrow",
+                icon: <Heart className="w-5 h-5 text-slate-600" />,
+                title: "Built for Everyone",
+                desc: "Listeners. Brands. Together.",
               },
             ].map((feat, i) => (
               <div
                 key={i}
                 className="flex items-start gap-3.5 p-5 rounded-2xl bg-white border border-slate-200/70 shadow-xs hover:border-[#1e60f2]/40 hover:shadow-md transition-all"
               >
-                <div className="p-3 rounded-xl bg-blue-50 shrink-0">
+                <div className="p-3 rounded-xl bg-blue-50 shrink-0 border border-blue-100/60">
                   {feat.icon}
                 </div>
                 <div>
@@ -665,9 +643,9 @@ export default function HomePage() {
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     {benefit.icon}
-                    <h5 className="text-xs font-bold text-slate-900">{benefit.title}</h5>
+                    <h5 className="text-sm font-bold text-slate-900">{benefit.title}</h5>
                   </div>
-                  <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
                     {benefit.desc}
                   </p>
                 </div>

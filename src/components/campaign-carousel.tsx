@@ -22,12 +22,18 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const checkScroll = () => {
     if (!scrollRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
     setCanScrollLeft(scrollLeft > 10);
     setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+
+    // Approximate active card from scroll position
+    const cardWidth = 360 + 24; // card + gap
+    const approx = Math.round(scrollLeft / cardWidth);
+    setActiveIndex(Math.min(Math.max(approx, 0), Math.max(campaigns.length - 1, 0)));
   };
 
   useEffect(() => {
@@ -95,13 +101,12 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
       <div
         ref={scrollRef}
         onScroll={checkScroll}
-        className="flex gap-6 overflow-x-auto scrollbar-hide pb-6 pt-2 snap-x snap-mandatory"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className="flex gap-6 overflow-x-auto pb-6 pt-2 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {campaigns.map((campaign) => (
           <div
             key={campaign.id}
-            className="flex-none w-[290px] sm:w-[330px] lg:w-[360px] snap-start group cursor-pointer"
+            className="flex-none w-[290px] sm:w-[330px] lg:w-[360px] snap-start group"
           >
             <div className="relative rounded-3xl overflow-hidden aspect-4/3 bg-slate-100 border border-slate-200/90 shadow-lg group-hover:shadow-2xl group-hover:border-[#1e60f2]/40 transition-all duration-300">
               <Image
@@ -111,7 +116,7 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
                 sizes="(max-width: 768px) 85vw, 360px"
                 className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
               />
-              
+
               {/* Category Pill Tag */}
               {campaign.tag && (
                 <div className="absolute top-3.5 left-3.5 z-10">
@@ -123,7 +128,7 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
             </div>
 
             <div className="mt-4 px-1 space-y-1">
-              <h4 className="text-base sm:text-lg font-black text-slate-900 group-hover:text-[#1e60f2] transition-colors">
+              <h4 className="text-base sm:text-lg font-bold text-slate-900 group-hover:text-[#1e60f2] transition-colors">
                 {campaign.title}
               </h4>
               <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 leading-relaxed">
@@ -131,6 +136,19 @@ export function CampaignCarousel({ campaigns }: CampaignCarouselProps) {
               </p>
             </div>
           </div>
+        ))}
+      </div>
+
+      {/* Blue progress dots — active card indicator */}
+      <div className="flex items-center justify-center gap-2 mt-2">
+        {campaigns.map((c, i) => (
+          <span
+            key={c.id}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === activeIndex ? "w-8 bg-[#1e60f2]" : "w-2 bg-slate-300"
+            }`}
+            aria-hidden="true"
+          />
         ))}
       </div>
     </div>

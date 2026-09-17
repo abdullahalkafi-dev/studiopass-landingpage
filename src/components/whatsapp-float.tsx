@@ -15,13 +15,13 @@ export function WhatsAppFloat({
   )}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-5 right-5 sm:bottom-6 sm:right-6 z-50">
       <a
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat with StudioPass Support"
-        className="relative group flex items-center gap-2.5 px-5 py-3.5 rounded-full bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold text-sm shadow-xl shadow-[#1e60f2]/30 hover:shadow-2xl hover:shadow-[#1e60f2]/40 transition-all duration-300 hover:scale-105 active:scale-95 border border-white/30"
+        className="relative group flex items-center justify-center sm:justify-start gap-2.5 h-12 w-12 sm:h-auto sm:w-auto sm:px-5 sm:py-3.5 rounded-full bg-[#1e60f2] hover:bg-[#185adb] text-white font-bold text-sm shadow-xl shadow-[#1e60f2]/30 hover:shadow-2xl hover:shadow-[#1e60f2]/40 transition-all duration-300 hover:scale-105 active:scale-95 border border-white/30"
       >
         {/* Green status ping dot */}
         <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5">
@@ -29,8 +29,8 @@ export function WhatsAppFloat({
           <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white" />
         </span>
 
-        <MessageSquare className="w-5 h-5 fill-white text-[#1e60f2]" />
-        <span className="tracking-tight font-semibold">Chat with us</span>
+        <MessageSquare className="w-5 h-5 fill-white text-[#1e60f2] shrink-0" />
+        <span className="hidden sm:inline tracking-tight font-semibold">Chat with us</span>
       </a>
     </div>
   );
