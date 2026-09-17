@@ -1,0 +1,8 @@
+# pnpm 12 settings (package.json pnpm field is no longer read)
+onlyBuiltDependencies:
+  - sharp
+  - unrs-resolver
+  - esbuild
+  - '@img/sharp-libvips-linuxmusl-x64'
+  - '@img/sharp-linuxmusl-x64'
+  - '@next/swc-linux-x64-musl'
