@@ -54,8 +54,8 @@ export function SmoothScrollProvider({
         const isSamePage =
           !pathPart ||
           targetPath === currentPath ||
-          ((currentPath === "" || currentPath === "/landing-page") &&
-            (targetPath === "" || targetPath === "/landing-page"));
+          ((currentPath === "" || currentPath === "/") &&
+            (targetPath === "" || targetPath === "/"));
 
         if (isSamePage) {
           const targetId = href.slice(hashIndex);

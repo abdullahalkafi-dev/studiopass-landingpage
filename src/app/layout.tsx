@@ -14,19 +14,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://joura.info/landing-page"),
+  metadataBase: new URL("https://studiopass.africa"),
   title: "StudioPass | Your Favourite Shows, Closer Than Ever",
   description:
     "StudioPass connects listeners and viewers directly with Radio Stations, TV Stations, Creators and Brands through messages, voice notes, song requests, live audio calls, polls, challenges and more.",
   icons: {
-    icon: "/landing-page/logo-icon.svg",
-    apple: "/landing-page/logo-icon.png",
+    icon: "/logo-icon.svg",
+    apple: "/logo-icon.png",
   },
   openGraph: {
     title: "StudioPass | One Platform. More Ways to Connect.",
     description:
       "StudioPass brings listeners, artists, channels and brands closer to the radio and TV stations they love. Real people. Real conversations. A more connected media community.",
-    images: ["/landing-page/logo.png"],
+    images: ["/logo.png"],
   },
 };
 

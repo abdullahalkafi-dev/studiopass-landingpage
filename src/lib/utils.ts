@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const BASE_PATH = "/landing-page";
+export const BASE_PATH = "";
 
 export function withBasePath(path: string): string {
   if (!path) return path;
@@ -16,11 +16,7 @@ export function withBasePath(path: string): string {
   ) {
     return path;
   }
-  const clean = path.startsWith("/") ? path : `/${path}`;
-  if (clean.startsWith(`${BASE_PATH}/`)) {
-    return clean;
-  }
-  return `${BASE_PATH}${clean}`;
+  return path.startsWith("/") ? path : `/${path}`;
 }
 
 export interface OperatingCountry {
