@@ -28,18 +28,31 @@ export default function ContactPage() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage(null);
 
     try {
-      // Frontend simulation - no external action or database write
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to send message. Please try again.");
+      }
+
       setSubmitted(true);
-    } catch (err) {
-      console.error(err);
-      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Contact submission error:", err);
+      setErrorMessage(err?.message || "Failed to send your message. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -251,7 +264,14 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <div className="pt-2 flex justify-end">
+                  {errorMessage && (
+                    <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+                      <span>⚠️</span>
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
+                  <div className="pt-2 flex justify-end">
                   <Button
                     type="submit"
                     variant="default"

@@ -32,13 +32,26 @@ export default function OnboardPage() {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setErrorMessage(null);
 
     try {
-      // Frontend simulation - no external action or database write
-      await new Promise((resolve) => setTimeout(resolve, 400));
+      const res = await fetch("/api/onboard", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Failed to submit partner application.");
+      }
 
       confetti({
         particleCount: 100,
@@ -48,9 +61,11 @@ export default function OnboardPage() {
       });
 
       setSubmitted(true);
-    } catch (err) {
-      console.error("Error submitting onboard form", err);
-      setSubmitted(true);
+    } catch (err: any) {
+      console.error("Error submitting onboard form:", err);
+      setErrorMessage(
+        err?.message || "Failed to submit application. Please check your connection and try again."
+      );
     } finally {
       setLoading(false);
     }
@@ -230,6 +245,13 @@ export default function OnboardPage() {
                   className="w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#1e60f2] resize-none"
                 />
               </div>
+
+              {errorMessage && (
+                <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center gap-2">
+                  <span>⚠️</span>
+                  <span>{errorMessage}</span>
+                </div>
+              )}
 
               <div className="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-xs text-slate-400">
